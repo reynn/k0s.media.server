@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`lidarr.reynn.net`)
+      kind: Rule
+      services:
+        - name: lidarr
+          port: 8686
+      middlewares:
+        - name: redirect-to-https
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts

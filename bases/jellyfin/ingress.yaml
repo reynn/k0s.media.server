@@ -1,0 +1,40 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyfin
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellyfin.reynn.net`)
+      kind: Rule
+      services:
+        - name: jellyfin
+          port: 8096
+          passHostHeader: true
+      middlewares:
+        - name: jellyfin-headers
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: jellyfin-headers
+spec:
+  headers:
+    sslRedirect: true
+    sslHost: jellyfin.reynn.net
+    sslForceHost: true
+    stsSeconds: 315360000
+    stsIncludeSubdomains: true
+    stsPreload: true
+    forceSTSHeader: true
+    frameDeny: true
+    contentTypeNosniff: true
+    browserXssFilter: true
+    customResponseHeaders:
+      X-Robots-Tag: noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+    customFrameOptionsValue: allow-from https://reynn.net

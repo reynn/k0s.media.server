@@ -1,0 +1,7 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: reynn-net
+spec:
+  defaultCertificate:
+    secretName: reynn-net-cert

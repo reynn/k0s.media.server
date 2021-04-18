@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  annotations:
+    mimikyu.reynn.net/resource-profiile: mid
+spec:
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k3s.io/hostname
+                    operator: In
+                    values:
+                      - mimikyu
+      containers:
+        - name: radarr
+          image: linuxserver/radarr
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - containerPort: 7878
+              name: tcp-server
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: incomplete-downloads
+              mountPath: /incomplete-downloads
+            - name: complete-downloads
+              mountPath: /media/deadpool/downloads/complete/radarr
+            - name: movies
+              mountPath: /media/deadpool/movies
+            - name: anime-movies
+              mountPath: /media/deadpool/anime_movies
+            - name: stand-up
+              mountPath: /media/deadpool/stand_up
+            - name: animated
+              mountPath: /media/deadpool/movies_animated
+            - name: documentary
+              mountPath: /media/deadpool/documentary
+      volumes:
+        - name: config
+          hostPath:
+            path: /media/deadpool/docker/media-server/radarr
+            type: Directory
+        - name: incomplete-downloads
+          hostPath:
+            path: /media/deadpool/downloads/incomplete
+            type: DirectoryOrCreate
+        - name: complete-downloads
+          hostPath:
+            path: /media/deadpool/downloads/complete/radarr
+            type: DirectoryOrCreate
+        - name: movies
+          hostPath:
+            path: /media/deadpool/movies
+            type: DirectoryOrCreate
+        - name: anime-movies
+          hostPath:
+            path: /media/deadpool/anime_movies
+            type: DirectoryOrCreate
+        - name: stand-up
+          hostPath:
+            path: /media/deadpool/stand_up
+            type: DirectoryOrCreate
+        - name: animated
+          hostPath:
+            path: /media/deadpool/movies_animated
+            type: DirectoryOrCreate
+        - name: documentary
+          hostPath:
+            path: /media/deadpool/documentary
+            type: DirectoryOrCreate

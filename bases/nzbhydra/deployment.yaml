@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nzbhydra
+spec:
+  selector:
+    matchLabels:
+      app: nzbhydra
+  template:
+    metadata:
+      labels:
+        app: nzbhydra
+    spec:
+      containers:
+        - name: nzbhydra
+          image: linuxserver/nzbhydra
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+            - name: DOCKER_MODS
+              value: linuxserver/mods:universal-wait-for-internet
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "0.75"
+          ports:
+            - containerPort: 5076
+              name: tcp-server
+          volumeMounts:
+            - mountPath: /config
+              name: config
+            - mountPath: /downloads
+              name: downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: nzbhyrda-config
+        - name: downloads
+          emptyDir: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nzbhyrda-config
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

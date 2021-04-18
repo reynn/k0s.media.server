@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`calibre.reynn.net`)
+      kind: Rule
+      services:
+        - name: calibre
+          port: 8083
+  tls:
+    secretName: reynn-net-cert

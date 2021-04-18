@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mylar
+spec:
+  selector:
+    app: mylar
+  ports:
+    - name: tcp-ui
+      port: 8090

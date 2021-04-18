@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: qbittorrent
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`qbittorrent.reynn.net`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: 8080
+        # - name: peering
+        #   port: 4001
+  tls:
+    secretName: reynn-net-cert

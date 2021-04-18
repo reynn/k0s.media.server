@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nzbhydra
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nzbhydra.reynn.net`)
+      kind: Rule
+      services:
+        - name: nzbhydra
+          port: 5076
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts

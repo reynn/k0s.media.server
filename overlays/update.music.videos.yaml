@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: music-video-updater
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: python3
+              args: ["/bin/sh", "-c", "python3 install -U youtube-dl"]
+          restartPolicy: OnFailure

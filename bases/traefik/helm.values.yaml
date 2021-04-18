@@ -1,0 +1,149 @@
+# https://github.com/traefik/traefik-helm-chart/blob/master/traefik/values.yaml
+# Default values for Traefik
+image:
+  name: traefik
+  # defaults to appVersion
+  tag: "v2.4"
+fullnameOverride: traefik
+# Configure the deployment
+deployment:
+  enabled: true
+  replicas: 1
+  podLabels:
+    app: traefik
+    version: v2.4
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+
+# Use ingressClass. Ignored if Traefik version < 2.3 / kubernetes < 1.18.x
+ingressClass:
+  enabled: false
+
+pilot:
+  enabled: false
+
+# Enable experimental features
+experimental:
+  plugins:
+    enabled: true
+  kubernetesGateway:
+    enabled: false
+
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: false
+
+logs:
+  general:
+    format: json
+    level: INFO
+# Configure ports
+ports:
+  # The name of this one can't be changed as it is used for the readiness and
+  # liveness probes, but you can adjust its config to your liking
+  traefik:
+    port: 9000
+    healthchecksPort: 9000
+    # Exposed to a local home network but not external to that
+    # Turn off if running in a less secure network setting
+    expose: true
+    exposedPort: 9000
+    nodePort: 32090
+    protocol: TCP
+  web:
+    port: 8000
+    expose: true
+    exposedPort: 80
+    # The port protocol (TCP/UDP)
+    protocol: TCP
+    # Use nodeport if set. This is useful if you have configured Traefik in a
+    # LoadBalancer
+    nodePort: 32080
+    # Port Redirections
+    # Added in 2.2, you can make permanent redirects via entrypoints.
+    # https://docs.traefik.io/routing/entrypoints/#redirection
+    redirectTo: websecure
+  websecure:
+    port: 8443
+    # hostPort: 8443
+    expose: true
+    exposedPort: 443
+    # The port protocol (TCP/UDP)
+    protocol: TCP
+    nodePort: 32443
+    # Set TLS at the entrypoint
+    # https://doc.traefik.io/traefik/routing/entrypoints/#tls
+    tls:
+      enabled: false
+      # this is the name of a TLSOption definition
+      options: ""
+      certResolver: ""
+      domains: []
+      # - main: example.com
+      #   sans:
+      #     - foo.example.com
+      #     - bar.example.com
+
+globalArguments:
+  - --global.checknewversion
+  - --global.sendanonymoususage
+
+additionalArguments:
+  - --metrics
+  - --metrics.prometheus
+  - --providers.kubernetescrd.allowCrossNamespace=false
+
+service:
+  enabled: true
+  type: LoadBalancer
+
+tlsOptions:
+  default:
+    sniStrict: false
+    preferServerCipherSuites: true
+
+rbac:
+  enabled: true
+
+persistence:
+  enabled: false
+  name: data
+  size: 128Mi
+  path: /data
+
+affinity:
+  # This example pod anti-affinity forces the scheduler to put traefik pods
+  # on nodes where no other traefik pods are scheduled.
+  # It should be used when hostNetwork: true to prevent port conflicts
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app
+              operator: In
+              values:
+                - traefik
+        topologyKey: kubernetes.io/hostname
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 50Mi
+  limits:
+    cpu: 300m
+    memory: 150Mi
+
+securityContext:
+  capabilities:
+    drop: [ALL]
+  readOnlyRootFilesystem: true
+  runAsGroup: 65532
+  runAsNonRoot: true
+  runAsUser: 65532
+
+podSecurityContext:
+  fsGroup: 65532

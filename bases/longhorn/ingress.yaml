@@ -1,0 +1,28 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`longhorn.reynn.net`)
+      kind: Rule
+      services:
+        - name: longhorn
+      middlewares:
+        - name: redirect-to-https
+          namespace: default
+        - name: longhorn-auth
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middlewares
+metadata:
+  name: longhorn-auth
+spec:
+  basicAuth:
+    secret: longhorn-auth
