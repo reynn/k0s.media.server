@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mylar
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`mylar.reynn.net`)
+      kind: Rule
+      services:
+        - name: mylar
+          port: 8090
+      middlewares:
+        - name: redirect-web-to-443@internal
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+      namespace: utils

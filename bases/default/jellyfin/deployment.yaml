@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  annotations:
+    k3s.reynn.net/resource-profiile: deluxe
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k3s.io/hostname
+                    operator: In
+                    values:
+                      - mimikyu
+      containers:
+        - name: jellyfin
+          image: jellyfin/jellyfin
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - name: http-ui
+              containerPort: 8096 #is used by default for HTTP traffic. You can change this in the dashboard.
+              # hostPort: 8096
+            - name: https-ui
+              containerPort: 8920 #is used by default for HTTPS traffic. You can change this in the dashboard.
+              # hostPort: 8920
+            - name: udp-svc-auto
+              containerPort: 1900 #is used for service auto-discovery. This is not configurable.
+              # hostPort: 1900
+              protocol: UDP
+            - name: udp-auto
+              containerPort: 7359 #is also used for auto-discovery. This is not configurable.
+              # hostPort: 7359
+              protocol: UDP
+          livenessProbe:
+            httpGet:
+              path: /health
+              scheme: HTTP
+              port: http-ui
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              scheme: HTTP
+              port: http-ui
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            successThreshold: 5
+          volumeMounts:
+            - mountPath: /config
+              name: config
+            - mountPath: /media/deadpool
+              name: media
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 1000
+      volumes:
+        - name: media
+          hostPath:
+            path: /media/deadpool/
+            type: Directory
+        - name: config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+  labels:
+    app: jellyfin-config
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readarr
+  annotations:
+    k3s.reynn.net/resource-profiile: mid
+spec:
+  selector:
+    matchLabels:
+      app: readarr
+  template:
+    metadata:
+      labels:
+        app: readarr
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k3s.io/hostname
+                    operator: In
+                    values:
+                      - mimikyu
+      containers:
+        - name: readarr
+          image: hotio/readarr:nightly
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - containerPort: 8787
+              name: tcp-server
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /media/deadpool/downloads
+            - name: books
+              mountPath: /media/deadpool/books
+      volumes:
+        - name: downloads
+          hostPath:
+            path: /media/deadpool/downloads
+            type: Directory
+        - name: books
+          hostPath:
+            path: /media/deadpool/books
+            type: Directory
+        - name: config
+          persistentVolumeClaim:
+            claimName: readarr-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readarr-config
+  labels:
+    app: readarr-config
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 6Gi

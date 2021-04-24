@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nzbget
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nzbget.reynn.net`)
+      kind: Rule
+      services:
+        - name: nzbget
+          port: 6789
+      middlewares:
+        - name: redirect-web-to-443@internal
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+      namespace: utils

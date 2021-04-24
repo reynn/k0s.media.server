@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr
+  annotations:
+    k3s.reynn.net/resource-profiile: small
+spec:
+  selector:
+    matchLabels:
+      app: lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k3s.io/hostname
+                    operator: In
+                    values:
+                      - mimikyu
+      containers:
+        - name: lidarr
+          image: linuxserver/lidarr
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - containerPort: 8686
+              name: tcp-server
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: music
+              mountPath: /media/deadpool/music
+            - name: downloads
+              mountPath: /media/deadpool/downloads
+      volumes:
+        - name: music
+          hostPath:
+            path: /media/deadpool/music
+            type: Directory
+        - name: downloads
+          hostPath:
+            path: /media/deadpool/downloads
+            type: Directory
+        - name: config
+          persistentVolumeClaim:
+            claimName: lidarr-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lidarr-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi

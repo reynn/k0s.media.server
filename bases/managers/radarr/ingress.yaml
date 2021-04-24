@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`radarr.reynn.net`)
+      kind: Rule
+      services:
+        - name: radarr
+          port: 7878
+      middlewares:
+        - name: redirect-web-to-443@internal
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+      namespace: utils

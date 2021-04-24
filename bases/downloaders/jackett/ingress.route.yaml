@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jackett
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jackett.reynn.net`)
+      kind: Rule
+      services:
+        - name: jackett
+          port: 9117
+      middlewares:
+        - name: redirect-web-to-443@internal
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+      namespace: utils

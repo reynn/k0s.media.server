@@ -1,0 +1,18 @@
+backup-target: s3://k3s-mimikyu-server@sfo3.digitaloceanspaces.com/longhorn/
+backup-target-credential-secret: longhorn-s3-token
+#
+create-default-disk-labeled-nodes: true
+replica-soft-anti-affinity: false
+storage-over-provisioning-percentage: 600
+storage-minimal-available-percentage: 0
+upgrade-checker: true
+default-replica-count: 2
+default-data-locality: best-effort
+guaranteed-engine-cpu: 0.25
+backupstore-poll-interval: 500
+auto-salvage: true
+disable-scheduling-on-cordoned-node: true
+replica-zone-soft-anti-affinity: true
+volume-attachment-recovery-policy: never
+node-down-pod-deletion-policy: do-nothing
+mkfs-ext4-parameters: -O ^64bit,^metadata_csum

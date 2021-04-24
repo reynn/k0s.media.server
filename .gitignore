@@ -12,3 +12,5 @@ containers/adult/stash/
 **/tls.*
 .build/
 **/*.properties
+tls-cert.yaml
+secrets

@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs
+  annotations:
+    k3s.reynn.net/resource-profiile: mini
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs
+  template:
+    metadata:
+      labels:
+        app: nfs
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k3s.io/hostname
+                    operator: In
+                    values:
+                      - mimikyu
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      containers:
+        - name: nfs
+          image: erichough/nfs-server
+          resources: {}
+          env:
+            - name: "NFS_EXPORT_0"
+              value: "/media/deadpool         10.0.0.0/26(no_subtree_check,rw,sync)"
+            - name: "NFS_VERSION"
+              value: "4.2"
+            - name: NFS_DISABLE_VERSION_3
+              value: "true"
+            - name: NFS_SERVER_THREAD_COUNT
+              value: "4"
+          ports:
+            - name: tcp-nfs
+              containerPort: 2049
+              hostPort: 2049
+            - name: udp-nfs
+              containerPort: 2049
+              hostPort: 2049
+              protocol: UDP
+            # - name: udp-mountd
+            #   containerPort: 32767
+            #   hostPort: 32767
+            #   protocol: UDP
+            # - name: tcp-mountd
+            #   containerPort: 32767
+            #   hostPort: 32767
+            #   protocol: TCP
+            # - name: tcp-statd
+            #   containerPort: 32765
+            #   hostPort: 32765
+            #   protocol: TCP
+            # - name: udp-statd
+            #   containerPort: 32765
+            #   hostPort: 32765
+            #   protocol: UDP
+          volumeMounts:
+            - name: data
+              mountPath: /media/deadpool
+          securityContext:
+            privileged: true
+      volumes:
+        - name: data
+          hostPath:
+            path: /media/deadpool/
+            type: Directory

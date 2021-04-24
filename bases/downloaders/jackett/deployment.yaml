@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  annotations:
+    k3s.reynn.net/resource-profile: mini
+spec:
+  selector:
+    matchLabels:
+      app: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: linuxserver/jackett
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+            - name: DOCKER_MODS
+              value: linuxserver/mods:universal-wait-for-internet
+          resources: {}
+          ports:
+            - containerPort: 9117
+              name: tcp-server
+          volumeMounts:
+            - mountPath: /config
+              name: config
+        - name: flaresolver
+          image: ghcr.io/flaresolverr/flaresolverr:latest
+          env:
+            - name: LOG_LEVEL
+              value: info
+            - name: CAPTCHA_SOLVER
+              value: hcaptcha-solver
+          ports:
+            - name: http
+              containerPort: 8191
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "0.075"
+            limits:
+              memory: "64Mi"
+              cpu: "0.15"
+          livenessProbe:
+            httpGet:
+              port: http
+              scheme: HTTP
+              path: /
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              port: http
+              scheme: HTTP
+              path: /
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 5
+      volumes:
+        - name: config
+          hostPath:
+            path: /media/deadpool/docker/media-server/jackett
+            type: DirectoryOrCreate

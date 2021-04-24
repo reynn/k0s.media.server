@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: readarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`readarr.reynn.net`)
+      kind: Rule
+      services:
+        - name: readarr
+          port: 8787
+      middlewares:
+        - name: redirect-web-to-443@internal
+  tls:
+    secretName: reynn-net-cert
+    options:
+      name: recommended-tls-opts
+      namespace: utils
