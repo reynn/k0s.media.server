@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: readarr
   annotations:
-    k3s.reynn.net/resource-profiile: mid
+    k3s.reynn.net/resource-profile: mid
 spec:
   selector:
     matchLabels:

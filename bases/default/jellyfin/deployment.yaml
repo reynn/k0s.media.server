@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: jellyfin
   annotations:
-    k3s.reynn.net/resource-profiile: deluxe
+    k3s.reynn.net/resource-profile: deluxe
 spec:
   strategy:
     type: RollingUpdate

@@ -43,6 +43,24 @@ images:
 patches:
   # Memory Profiles for deployments
   # mini, small, mid, large, deluxe
+  - path: patches.json/resource.limits.deluxe.yaml
+    target:
+      annotationSelector: "k3s.reynn.net/resource-profile=deluxe"
+      group: apps
+      kind: Deployment
+      version: v1
+  - path: patches.json/resource.limits.large.yaml
+    target:
+      annotationSelector: "k3s.reynn.net/resource-profile=large"
+      group: apps
+      kind: Deployment
+      version: v1
+  - path: patches.json/resource.limits.mid.yaml
+    target:
+      annotationSelector: "k3s.reynn.net/resource-profile=mid"
+      group: apps
+      kind: Deployment
+      version: v1
   - path: patches.json/resource.limits.mini.yaml
     target:
       annotationSelector: "k3s.reynn.net/resource-profile=mini"
@@ -55,38 +73,19 @@ patches:
       group: apps
       kind: Deployment
       version: v1
-  - path: patches.json/resource.limits.mid.yaml
-    target:
-      annotationSelector: "k3s.reynn.net/resource-profile=mid"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.large.yaml
-    target:
-      annotationSelector: "k3s.reynn.net/resource-profile=large"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.deluxe.yaml
-    target:
-      annotationSelector: "k3s.reynn.net/resource-profile=deluxe"
-      group: apps
-      kind: Deployment
-      version: v1
 
-# namespace: default
 bases:
   - ../secrets/
-  # - ../../bases/default/jellyfin/
-  # - ../../bases/downloaders/jackett/
-  # - ../../bases/downloaders/nzbget/
-  # - ../../bases/downloaders/qbittorrent/
-  # - ../../bases/managers/calibre/
-  # - ../../bases/managers/lidarr/
-  # - ../../bases/managers/mylar/
+  - ../../bases/default/jellyfin/
+  - ../../bases/downloaders/jackett/
+  - ../../bases/downloaders/nzbget/
+  - ../../bases/downloaders/qbittorrent/
+  - ../../bases/managers/calibre/
+  - ../../bases/managers/lidarr/
+  - ../../bases/managers/mylar/
   - ../../bases/managers/radarr/
   - ../../bases/managers/readarr/
-  # - ../../bases/managers/sonarr/
+  - ../../bases/managers/sonarr/
   # - ../../bases/monitoring/prometheus/
   # - ../../bases/utils/nfs/
-  # - ../../bases/utils/traefik/
+  - ../../bases/utils/traefik/

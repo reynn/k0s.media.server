@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: calibre
   annotations:
-    k3s.reynn.net/resource-profiile: mini
+    k3s.reynn.net/resource-profile: mini
 spec:
   selector:
     matchLabels:

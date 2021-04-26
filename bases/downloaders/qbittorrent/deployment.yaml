@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: qbittorrent
   annotations:
-    k3s.reynn.net/resource-profiile: small
+    k3s.reynn.net/resource-profile: small
 spec:
   selector:
     matchLabels:
