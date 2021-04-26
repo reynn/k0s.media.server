@@ -3,13 +3,13 @@ kind: CronJob
 metadata:
   name: music-video-updater
 spec:
-  schedule: "0 * * * *"
+  schedule: "@hourly"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-            - name: hello
+            - name: music-video-downloader
               image: python3
               args: ["/bin/sh", "-c", "python3 install -U youtube-dl"]
           restartPolicy: OnFailure

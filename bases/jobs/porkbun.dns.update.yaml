@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: porkbun-dns-updater
+spec:
+  schedule: "@hourly"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: porkbun-dns-updater
+              image: ghcr.io/reynn/porkbun-dns-updater
+              imagePullPolicy: Always
+              env:
+                - name: DOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: porkbun-dns
+                      key: dns
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: porkbun-dns
+                      key: secret.key
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: porkbun-dns
+                      key: api.key
