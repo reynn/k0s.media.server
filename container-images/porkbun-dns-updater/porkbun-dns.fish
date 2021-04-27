@@ -1,21 +1,46 @@
 #!/usr/bin/env fish
 
 function fatal
-    echo "$argv"
+    set_color red
+    echo -e "$argv" 1>&2
+    set_color normal
     exit 1
 end
 
-set -q DOMAIN; and set -lx DOMAIN "$DOMAIN"; or fatal "No DOMAIN set in env"
-set -q SECRET_KEY; and set -lx PB_SEC_KEY "$SECRET_KEY"; or fatal "No SECRET_KEY in env"
-set -q API_KEY; and set -lx PB_API_KEY "$API_KEY"; or fatal "No API_KEY in env"
+function log
+    set_color green
+    echo -e "$argv" 1>&2
+    set_color normal
+end
 
-set AUTH "{\"secretapikey\":\"$PB_SEC_KEY\",\"apikey\":\"$PB_API_KEY\"}"
-set CURRENT_IP (curl -sSL -X POST -d $AUTH https://porkbun.com/api/json/v3/ping | jq -r '.yourIp')
+set -x SCRIPT_NAME (basename (status current-filename))
+log "----> $SCRIPT_NAME v0.2.0 <----"
 
-echo "Current IP: $CURRENT_IP"
-set PING_ENDPOINT https://porkbun.com/api/json/v3/dns/retrieve/$DOMAIN
-echo "Checking for existing DNS Records for $DOMAIN from $PING_ENDPOINT"
-set DOMAIN_ENTRIES (curl -sSL -X POST -d $AUTH $PING_ENDPOINT | jq -c -r '.records[]')
+set PB_ENDPOINT_PING 'https://porkbun.com/api/json/v3/ping'
+set PB_ENDPOINT_RETRIEVE 'https://porkbun.com/api/json/v3/dns/retrieve'
+set -q DOMAIN; or fatal "No DOMAIN set in env"
+set -q SECRET_KEY; or fatal "No SECRET_KEY in env"
+set -q API_KEY; or fatal "No API_KEY in env"
+
+if test -n "$DEBUG"
+    log "---->    Vars     <----"
+    log "PB_ENDPOINT_PING     : $PB_ENDPOINT_PING"
+    log "PB_ENDPOINT_RETRIEVE : $PB_ENDPOINT_RETRIEVE"
+    log "DOMAIN               : $DOMAIN"
+    log "SECRET_KEY           : $SECRET_KEY"
+    log "API_KEY              : $API_KEY "
+    log -----------------------
+    log "----> Environment <----"
+    env | sort
+    log -----------------------
+end
+
+set CURRENT_IP (http "$PB_ENDPOINT_PING" "secretapikey=$SECRET_KEY" "apikey=$API_KEY" | jq -r '.yourIp')
+test $status; or fatal "Failed to ping Porkbun servers"
+log "Current IP: $CURRENT_IP"
+
+log "Checking for existing DNS Records for $DOMAIN from $PB_ENDPOINT_RETRIEVE/$DOMAIN"
+set DOMAIN_ENTRIES (http "$PB_ENDPOINT_RETRIEVE/$DOMAIN" "secretapikey=$SECRET_KEY" "apikey=$API_KEY" | jq -c -r '.records[]')
 
 for entry in $DOMAIN_ENTRIES
     set record_id (echo $entry | jq -r '.id')
@@ -33,21 +58,9 @@ for entry in $DOMAIN_ENTRIES
             echo "Record [$record_name] is up to date"
         else
             echo "Updating [$record_name] content to $CURRENT_IP"
-            set payload (jq -n -c --arg secretapikey $PB_SEC_KEY \
-                --arg apikey $PB_API_KEY \
-                --arg name $record_name \
-                --arg type $record_type \
-                --arg content $CURRENT_IP \
-                '{"apikey"       : $apikey,
-                  "secretapikey" : $secretapikey,
-                  "name"         : $name,
-                  "content"      : $content,
-                  "ttl"          : "600",
-                  "type"         : $type}'
-            )
             set porkbun_endpoint https://porkbun.com/api/json/v3/dns/edit/$DOMAIN/$record_id
-            echo "Edit Payload($porkbun_endpoint): $payload"
-            set update_result (curl -sSL -X POST -d $payload $porkbun_endpoint | jq -r ".status")
+            echo "Edit Payload($porkbun_endpoint): $payload" 1>&2
+            set update_result (http $porkbun_endpoint secretapikey=$SECRET_KEY apikey=$API_KEY name=$record_name type=$record_type content=$CURRENT_IP  | jq -r ".status")
             if test "$update_result" = SUCCESS
                 echo "Successfully updated $record_name"
             end

@@ -74,12 +74,14 @@ patches:
       kind: Deployment
       version: v1
 
-bases:
+resources:
   - ../secrets/
   - ../../bases/default/jellyfin/
   - ../../bases/downloaders/jackett/
   - ../../bases/downloaders/nzbget/
   - ../../bases/downloaders/qbittorrent/
+  - ../../bases/jobs/porkbun.dns.updater/
+  - ../../bases/jobs/music.video.downloader/
   - ../../bases/managers/calibre/
   - ../../bases/managers/lidarr/
   - ../../bases/managers/mylar/
