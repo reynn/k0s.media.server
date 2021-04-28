@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: monitoring
 
 commonAnnotations:
-  k3s.reynn.net/base: monitoring
+  k0s.reynn.net/base: monitoring
 
 resources: []
 

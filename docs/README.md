@@ -1,6 +1,12 @@
-# K3s Media Server
+# K0s Media Server
 
-Tiny media server for running on a minimal Kubernetes distro such as [K3s][homepage-k3s], [K0s][homepage-k0s] or [KinD][homepage-kind].
+Tiny media server for running on a minimal Kubernetes distro such as
+
+- [K0s][homepage-k0s]
+- [K3s][homepage-k3s]
+- [KinD][homepage-kind]
+- [MicroK8s][homepage-microk8s]
+- Many others that I left out
 
 ## Bases
 
@@ -78,9 +84,9 @@ __Separated by Namespace__
 [homepage-calibre]: https://
 [homepage-jackett]: https://
 [homepage-jellyfin]: https://
-[homepage-k0s]: https://
+[homepage-k0s]: https://k0s.io
 [homepage-kind]: https://
-[homepage-k3s]: https://
+[homepage-k3s]: https://k3s.io
 [homepage-lidarr]: https://
 [homepage-longhorn]: https://
 [homepage-mylar]: https://
@@ -89,4 +95,5 @@ __Separated by Namespace__
 [homepage-qbittorrent]: https://
 [homepage-radarr]: https://
 [homepage-sonarr]: https://
-[homepage-traefik]: https://
+[homepage-traefik]: https://traefik.io/
+[homepage-microk8s]: https://microk8s.io/

@@ -17,7 +17,7 @@ spec:
   seLinux:
     rule: RunAsAny
   fsGroup:
-    rule: RunAsAnyd
+    rule: RunAsAny
   supplementalGroups:
     rule: RunAsAny
   volumes:

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: jellyfin
   annotations:
-    k3s.reynn.net/resource-profile: deluxe
+    k0s.reynn.net/resource-profile: deluxe
 spec:
   strategy:
     type: RollingUpdate
@@ -20,7 +20,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: k3s.io/hostname
+                  - key: kubernetes.io/hostname
                     operator: In
                     values:
                       - mimikyu

@@ -11,23 +11,43 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: music-video-downloader
-              image: python3
+              image: python:3
               command:
-                - "/bin/sh"
-                - "-c"
-                - "python3 install -U youtube-dl"
+                - /bin/sh
+                - -c
                 - |
+                  python3 install -U youtube-dl
                   youtube-dl --config-location /config/youtube.dl.properties \
                     --download-archive "/videos/youtube.archive.txt"
-          volumeMounts:
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                # - name: videos
+                #   mountPath: videos
+          volumes:
             - name: config
-              mountPath: /config
-        volumes:
-          - name: config
-            configMap:
-              name: music-video-configs
-              items:
-                - key: youtube.batch.txt
-                  path: youtube.batch.txt
-                - key: youtube.dl.properties
-                  path: youtube.dl.properties
+              configMap:
+                name: music-video-configs
+                items:
+                  - key: youtube.batch.txt
+                    path: youtube.batch.txt
+                  - key: youtube.dl.properties
+                    path: youtube.dl.properties
+#             - name: videos
+#               persistentVolumeClaim:
+#                 claimName: music-videos
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: music-videos
+#   namespace: default
+#   labels:
+#     app: music-videos
+# spec:
+#   storageClassName: longhorn
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 200Gi

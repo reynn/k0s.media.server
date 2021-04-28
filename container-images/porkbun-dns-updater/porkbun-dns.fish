@@ -35,12 +35,13 @@ if test -n "$DEBUG"
     log -----------------------
 end
 
-set CURRENT_IP (http "$PB_ENDPOINT_PING" "secretapikey=$SECRET_KEY" "apikey=$API_KEY" | jq -r '.yourIp')
+set CURRENT_IP (http "$PB_ENDPOINT_PING" "secretapikey=$SECRET_KEY" "apikey=$API_KEY" | jq -r '.yourIp'; or fatal "Failed to ping Porkbun endpoints")
 test $status; or fatal "Failed to ping Porkbun servers"
 log "Current IP: $CURRENT_IP"
 
 log "Checking for existing DNS Records for $DOMAIN from $PB_ENDPOINT_RETRIEVE/$DOMAIN"
 set DOMAIN_ENTRIES (http "$PB_ENDPOINT_RETRIEVE/$DOMAIN" "secretapikey=$SECRET_KEY" "apikey=$API_KEY" | jq -c -r '.records[]')
+test $status; or fatal "Failed to get entries for $DOMAIN"
 
 for entry in $DOMAIN_ENTRIES
     set record_id (echo $entry | jq -r '.id')
@@ -60,7 +61,8 @@ for entry in $DOMAIN_ENTRIES
             echo "Updating [$record_name] content to $CURRENT_IP"
             set porkbun_endpoint https://porkbun.com/api/json/v3/dns/edit/$DOMAIN/$record_id
             echo "Edit Payload($porkbun_endpoint): $payload" 1>&2
-            set update_result (http $porkbun_endpoint secretapikey=$SECRET_KEY apikey=$API_KEY name=$record_name type=$record_type content=$CURRENT_IP  | jq -r ".status")
+            set update_result (http $porkbun_endpoint secretapikey=$SECRET_KEY apikey=$API_KEY name=$record_name type=$record_type content=$CURRENT_IP | jq -r ".status"; )
+            test $status; or fatal "Failed to update $record_name for $DOMAIN"
             if test "$update_result" = SUCCESS
                 echo "Successfully updated $record_name"
             end

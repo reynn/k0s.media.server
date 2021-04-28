@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: downloaders
 
 commonAnnotations:
-  k3s.reynn.net/base: qbittorrent
+  k0s.reynn.net/base: qbittorrent
 
 resources:
   - deployment.yaml
