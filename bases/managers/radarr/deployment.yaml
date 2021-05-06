@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: radarr
   annotations:
-    k3s.reynn.net/resource-profile: mid
+    k0s.reynn.net/resource-profile: mid
 spec:
   selector:
     matchLabels:
@@ -18,7 +18,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: k3s.io/hostname
+                  - key: kubernetes.io/hostname
                     operator: In
                     values:
                       - mimikyu
@@ -41,6 +41,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: media-covers
+              mountPath: /config/MediaCover
             - name: downloads
               mountPath: /media/deadpool/downloads
             - name: movies
@@ -54,6 +56,8 @@ spec:
             - name: documentary
               mountPath: /media/deadpool/documentary
       volumes:
+        - name: media-covers
+          emptyDir: {}
         - name: downloads
           hostPath:
             path: /media/deadpool/downloads

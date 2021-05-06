@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: managers
 
 commonAnnotations:
-  k3s.reynn.net/base: radarr
+  k0s.reynn.net/base: radarr
 
 resources:
   - deployment.yaml

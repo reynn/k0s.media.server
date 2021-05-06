@@ -6,4 +6,4 @@
       cpu: "2"
     limits:
       memory: "8Gi"
-      cpu: "4"
+      cpu: "8"

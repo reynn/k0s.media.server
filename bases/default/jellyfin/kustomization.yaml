@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: default
 
 commonAnnotations:
-  k3s.reynn.net/base: jellyfin
+  k0s.reynn.net/base: jellyfin
 
 resources:
   - deployment.yaml

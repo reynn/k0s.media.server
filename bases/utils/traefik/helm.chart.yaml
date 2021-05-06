@@ -23,7 +23,7 @@ values:
       app: traefik
       version: v2.4
     annotations:
-      k3s.reynn.net/resource-profile: small
+      k0s.reynn.net/resource-profile: small
 
   # Pod disruption budget
   podDisruptionBudget:

@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: downloaders
 
 commonAnnotations:
-  k3s.reynn.net/base: nzbget
+  k0s.reynn.net/base: nzbget
 
 resources:
   - deployment.yaml

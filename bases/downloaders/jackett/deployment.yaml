@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: jackett
   annotations:
-    k3s.reynn.net/resource-profile: mini
+    k0s.reynn.net/resource-profile: mini
 spec:
   selector:
     matchLabels:

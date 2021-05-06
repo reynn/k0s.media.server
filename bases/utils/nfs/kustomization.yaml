@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: utils
 
 commonAnnotations:
-  k3s.reynn.net/base: nfs
+  k0s.reynn.net/base: nfs
 
 resources:
   - deployment.yaml

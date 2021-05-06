@@ -4,12 +4,7 @@ kind: Kustomization
 namespace: utils
 
 commonAnnotations:
-  k0s.reynn.net/base: traefik
-
-resources:
-  - default.tls.options.yaml
-  - default.tls.store.yaml
-  - redirect.to.secure.yaml
+  k0s.reynn.net/base: metallb
 
 generators:
   - helm.chart.yaml
@@ -19,5 +14,5 @@ patchesJson6902:
     target:
       group: rbac.authorization.k8s.io
       kind: ClusterRoleBinding
-      name: traefik
+      name: metallb
       version: v1
