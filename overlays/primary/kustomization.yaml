@@ -6,7 +6,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.7.2"
+    newTag: "10.7.5"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -75,15 +75,15 @@ patches:
       version: v1
 
 resources:
-  - namespaces.yaml
-  - ../secrets/
-  # - ../../bases/default/jellyfin/
-  - ../../bases/downloaders/jackett/
-  - ../../bases/downloaders/nzbget/
-  - ../../bases/downloaders/qbittorrent/
+  # - namespaces.yaml
+  # - ../secrets/
+  - ../../bases/default/jellyfin/
+  # - ../../bases/downloaders/jackett/
+  # - ../../bases/downloaders/nzbget/
+  # - ../../bases/downloaders/qbittorrent/
   # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/jobs/music.video.downloader/
-  - ../../bases/longhorn-system/longhorn/
+  # - ../../bases/longhorn-system/longhorn/
   # - ../../bases/managers/calibre/
   # - ../../bases/managers/lidarr/
   # - ../../bases/managers/mylar/
@@ -93,3 +93,4 @@ resources:
   # - ../../bases/utils/nfs/
   # - ../../bases/utils/traefik/
   # - ../../bases/utils/metallb/
+  # - ../../bases/utils/pihole/

@@ -75,17 +75,17 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: sonarr-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarr-config
-  labels:
-    app: sonarr-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: sonarr-config
+#   labels:
+#     app: sonarr-config
+# spec:
+#   storageClassName: longhorn
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole
+spec:
+  type: LoadBalancer
+  selector:
+    app: pihole
+  ports:
+    - name: tcp-dns
+      port: 53
+      nodePort: 31053
+    - name: tcp-web
+      port: 80
+      nodePort: 31080

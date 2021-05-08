@@ -57,15 +57,15 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: lidarr-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: lidarr-config
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: lidarr-config
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: longhorn
+#   resources:
+#     requests:
+#       storage: 10Gi

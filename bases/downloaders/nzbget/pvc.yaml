@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jackett-config
+  name: nzbget-config
 spec:
   storageClassName: longhorn
   accessModes:

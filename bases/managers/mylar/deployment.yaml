@@ -51,17 +51,17 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: mylar-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mylar-config
-  labels:
-    app: mylar-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mylar-config
+#   labels:
+#     app: mylar-config
+# spec:
+#   storageClassName: longhorn
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi

@@ -1,6 +1,5 @@
 backup-target: s3://k3s-mimikyu-server@sfo3.digitaloceanspaces.com/longhorn/
 backup-target-credential-secret: longhorn-s3-token
-#
 create-default-disk-labeled-nodes: true
 replica-soft-anti-affinity: false
 storage-over-provisioning-percentage: 600

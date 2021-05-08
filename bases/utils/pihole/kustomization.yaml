@@ -1,13 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: downloaders
+namespace: utils
 
 commonAnnotations:
-  k0s.reynn.net/base: nzbget
+  k0s.reynn.net/base: pihole
 
 resources:
   - deployment.yaml
-  - ingress.yaml
   - service.yaml
-  # - pvc.yaml
+  - ingress.route.yaml
+  - dns.pvc.yaml
+  - config.pvc.yaml

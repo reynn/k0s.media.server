@@ -1,20 +1,20 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: jellyfin
+  name: pihole
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`jellyfin.reynn.net`)
+    - match: Host(`pihole.reynn.net`)
       kind: Rule
       services:
-        - name: jellyfin
-          port: 8096
-          passHostHeader: true
+        - name: pihole
+          port: 80
       middlewares:
         - name: redirect-web-to-443@internal
-        - name: jellyfin-headers
+        - name: pihole
+          namespace: utils
   tls:
     secretName: reynn-net-cert
     options:
@@ -24,13 +24,10 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: jellyfin-headers
+  name: pihole
 spec:
   headers:
-    sslRedirect: true
-    sslHost: jellyfin.reynn.net
-    sslForceHost: true
-    stsSeconds: 315360000
+    stsSeconds: 31536000
     stsIncludeSubdomains: true
     stsPreload: true
     forceSTSHeader: true

@@ -47,9 +47,9 @@ spec:
             - name: longhorn
               mountPath: /var/lib/longhorn/
               mountPropagation: Bidirectional
-            - name: deadpool
-              mountPath: /media/deadpool/
-              mountPropagation: Bidirectional
+            # - name: deadpool
+            #   mountPath: /media/deadpool/
+            #   mountPropagation: Bidirectional
             - name: longhorn-settings
               mountPath: /var/lib/longhorn-setting/
           env:
@@ -77,14 +77,9 @@ spec:
         - name: longhorn
           hostPath:
             path: /var/lib/longhorn/
-        - name: deadpool
-          hostPath:
-            path: /media/deadpool/
         - name: longhorn-settings
           configMap:
             name: longhorn-settings
-      #      imagePullSecrets:
-      #      - name: ""
       serviceAccountName: longhorn-service-account
   updateStrategy:
     rollingUpdate:

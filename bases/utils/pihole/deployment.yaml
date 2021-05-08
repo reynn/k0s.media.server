@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole
+  annotations:
+    k0s.reynn.net/resource-profile: mini
+spec:
+  selector:
+    matchLabels:
+      app: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      containers:
+        - name: pihole
+          image: pihole/pihole
+          resources: {}
+          env:
+            - name: TZ
+              value: "America/Los Angeles"
+            - name: DNSSEC
+              value: "true"
+          ports:
+            - name: tcp-dns
+              containerPort: 53
+              protocol: TCP
+            - name: udp-dns
+              containerPort: 53
+              protocol: UDP
+            - name: udp-bootp-srv
+              containerPort: 67
+              protocol: UDP
+            - name: tcp-web
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/pihole/
+            - name: dns
+              mountPath: /etc/dnsmasq.d/
+            - name: lighttpd
+              mountPath: /etc/lighttpd/external.conf
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pihole-config
+        - name: dns
+          persistentVolumeClaim:
+            claimName: pihole-dns
+        - name: lighttpd
+          configMap:
+            name: pihole-lighttpd
+            items:
+              -

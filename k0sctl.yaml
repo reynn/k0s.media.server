@@ -1,0 +1,95 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s-mimikyu
+spec:
+  hosts:
+    - role: controller+worker
+      ssh:
+        address: yanfei.raspberryl.local
+        user: k0s
+        port: 22
+        keyPath: /Users/reynn/.ssh/id_ed25519
+    - role: controller+worker
+      ssh:
+        address: qiqi.raspberryl.local
+        user: k0s
+        port: 22
+        keyPath: /Users/reynn/.ssh/id_ed25519
+    - role: worker
+      ssh:
+        address: xinyan.raspberryl.local
+        user: k0s
+        port: 22
+        keyPath: /Users/reynn/.ssh/id_ed25519
+    - role: worker
+      ssh:
+        address: ningguang.raspberryl.local
+        user: k0s
+        port: 22
+        keyPath: /Users/reynn/.ssh/id_ed25519
+
+  k0s:
+    version: v1.21.0+k0s.0
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: Cluster
+      metadata:
+        name: mimikyu
+      spec:
+        api:
+          address:
+          sans:
+            - 10.10.0.2
+        network:
+          podCIDR: 10.244.0.0/16
+          serviceCIDR: 10.96.0.0/12
+          provider: calico
+          calico:
+            flexVolumeDriverPath: /usr/libexec/k0s/kubelet-plugins/volume/exec/nodeagent~uds
+            mode: vxlan
+            mtu: 1500
+            overlay: Always
+            vxlanPort: 4789
+            vxlanVNI: 4096
+            wireguard: false
+            withWindowsNodes: false
+        podSecurityPolicy:
+          defaultPolicy: 00-k0s-privileged
+        storage:
+          type: etcd
+          etcd:
+            peerAddress: 10.10.0.2
+        telemetry:
+          enabled: false
+          interval: 10m0s
+        images:
+          calico:
+            cni:
+              image: calico/cni
+              version: v3.18.2
+            kubecontrollers:
+              image: calico/kube-controllers
+              version: v3.18.2
+            node:
+              image: calico/node
+              version: v3.18.2
+          coredns:
+            image: docker.io/coredns/coredns
+            version: 1.8.3
+          konnectivity:
+            image: us.gcr.io/k8s-artifacts-prod/kas-network-proxy/proxy-agent
+            version: v0.0.16
+          kubeproxy:
+            image: k8s.gcr.io/kube-proxy
+            version: v1.20.6
+          metricsserver:
+            image: gcr.io/k8s-staging-metrics-server/metrics-server
+            version: v0.4.3
+        installConfig:
+          users:
+            etcdUser: etcd
+            kineUser: kube-apiserver
+            konnectivityUser: konnectivity-server
+            kubeAPIserverUser: kube-apiserver
+            kubeSchedulerUser: kube-scheduler

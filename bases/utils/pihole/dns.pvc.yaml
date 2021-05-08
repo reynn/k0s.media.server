@@ -1,0 +1,39 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pihole-dns
+spec:
+  capacity:
+    storage: 1Gi
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: pihole-dns
+    fsType: ext4
+    volumeAttributes:
+      diskSelector: nvme
+      numberOfReplicas: "2"
+      staleReplicaTimeout: "20"
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: utils
+    name: pihole-dns
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: longhorn-static
+  volumeMode: Filesystem
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pihole-dns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pihole-dns
+  storageClassName: longhorn-static
+  volumeMode: Filesystem

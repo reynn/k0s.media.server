@@ -69,6 +69,5 @@ spec:
             failureThreshold: 5
       volumes:
         - name: config
-          hostPath:
-            path: /media/deadpool/docker/media-server/jackett
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: jackett-config

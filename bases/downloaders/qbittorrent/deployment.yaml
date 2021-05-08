@@ -64,6 +64,5 @@ spec:
             path: /media/deadpool/
             type: Directory
         - name: config
-          hostPath:
-            path: /media/deadpool/docker/media-server/qbittorrent
-            type: Directory
+          persistentVolumeClaim:
+            claimName: qbittorent-config

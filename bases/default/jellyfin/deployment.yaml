@@ -46,11 +46,11 @@ spec:
               # hostPort: 8920
             - name: udp-svc-auto
               containerPort: 1900 #is used for service auto-discovery. This is not configurable.
-              # hostPort: 1900
+              hostPort: 1900
               protocol: UDP
             - name: udp-auto
               containerPort: 7359 #is also used for auto-discovery. This is not configurable.
-              # hostPort: 7359
+              hostPort: 7359
               protocol: UDP
           livenessProbe:
             httpGet:
@@ -85,17 +85,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jellyfin-config
-  labels:
-    app: jellyfin-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
