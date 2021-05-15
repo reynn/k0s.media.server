@@ -83,19 +83,6 @@ spec:
             path: /media/deadpool/documentary
             type: Directory
         - name: config
-          persistentVolumeClaim:
-            claimName: radarr-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: radarr-config
-  labels:
-    app: radarr-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 6Gi
+          hostPath:
+            path: /media/server/radarr/
+            type: Directory

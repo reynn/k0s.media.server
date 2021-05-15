@@ -41,20 +41,20 @@ spec:
             - containerPort: 6789
               name: tcp-server
           volumeMounts:
-            - mountPath: /config
-              name: config
-            - mountPath: /media/deadpool/downloads
-              name: media
-            - mountPath: /media/deadpool/nzbs
-              name: temp-nzbs
+            - name: downloads
+              mountPath: /media/deadpool/downloads
+            - name: config
+              mountPath: /config
+            - name: temp-nzbs
+              mountPath: /media/deadpool/nzbs
       volumes:
-        - name: media
+        - name: downloads
           hostPath:
             path: /media/deadpool/downloads
             type: Directory
         - name: config
           hostPath:
-            path: /media/deadpool/docker/media-server/nzbget
+            path: /media/server/nzbget/
             type: Directory
         - name: temp-nzbs
           emptyDir: {}

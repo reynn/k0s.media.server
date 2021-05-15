@@ -6,7 +6,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.7.2"
+    newTag: "10.7.5"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -77,19 +77,19 @@ patches:
 resources:
   - namespaces.yaml
   - ../secrets/
-  # - ../../bases/default/jellyfin/
+  - ../../bases/default/jellyfin/
   - ../../bases/downloaders/jackett/
   - ../../bases/downloaders/nzbget/
   - ../../bases/downloaders/qbittorrent/
   # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/jobs/music.video.downloader/
-  - ../../bases/longhorn-system/longhorn/
-  # - ../../bases/managers/calibre/
-  # - ../../bases/managers/lidarr/
-  # - ../../bases/managers/mylar/
-  # - ../../bases/managers/radarr/
-  # - ../../bases/managers/sonarr/
+  - ../../bases/managers/calibre/
+  - ../../bases/managers/lidarr/
+  - ../../bases/managers/mylar/
+  - ../../bases/managers/radarr/
+  - ../../bases/managers/sonarr/
   # - ../../bases/monitoring/prometheus/
   # - ../../bases/utils/nfs/
-  # - ../../bases/utils/traefik/
-  # - ../../bases/utils/metallb/
+  - ../../bases/openebs/
+  - ../../bases/utils/traefik/
+  - ../../bases/utils/metallb/

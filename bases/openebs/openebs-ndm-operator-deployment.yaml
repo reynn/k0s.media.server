@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openebs-ndm-operator
+  namespace: openebs
+  labels:
+    name: openebs-ndm-operator
+    openebs.io/component-name: ndm-operator
+    openebs.io/version: 2.8.0
+spec:
+  selector:
+    matchLabels:
+      name: openebs-ndm-operator
+      openebs.io/component-name: ndm-operator
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: openebs-ndm-operator
+        openebs.io/component-name: ndm-operator
+        openebs.io/version: 2.8.0
+    spec:
+      serviceAccountName: openebs-maya-operator
+      containers:
+        - name: node-disk-operator
+          image: openebs/node-disk-operator:1.4.0
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            exec:
+              command:
+                - stat
+                - /tmp/operator-sdk-ready
+            initialDelaySeconds: 4
+            periodSeconds: 10
+            failureThreshold: 1
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # the service account of the ndm-operator pod
+            - name: SERVICE_ACCOUNT
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.serviceAccountName
+            - name: OPERATOR_NAME
+              value: "node-disk-operator"
+            - name: CLEANUP_JOB_IMAGE
+              value: "openebs/linux-utils:2.8.0"
+            # OPENEBS_IO_INSTALL_CRD environment variable is used to enable/disable CRD installation
+            # from NDM operator. By default the CRDs will be installed
+            - name: OPENEBS_IO_INSTALL_CRD
+              value: "false"
+            # OPENEBS_IO_IMAGE_PULL_SECRETS environment variable is used to pass the image pull secrets
+            # to the cleanup pod launched by NDM operator
+            #- name: OPENEBS_IO_IMAGE_PULL_SECRETS
+            #  value: ""
+          # Process name used for matching is limited to the 15 characters
+          # present in the pgrep output.
+          # So fullname can be used here with pgrep (cmd is < 15 chars).
+          livenessProbe:
+            exec:
+              command:
+              - pgrep
+              - "ndo"
+            initialDelaySeconds: 30
+            periodSeconds: 60

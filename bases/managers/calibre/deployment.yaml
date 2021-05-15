@@ -49,19 +49,6 @@ spec:
             path: /media/deadpool/
             type: Directory
         - name: config
-          persistentVolumeClaim:
-            claimName: calibre-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: calibre-config
-  labels:
-    app: calibre-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+          hostPath:
+            path: /media/server/calibre/
+            type: Directory

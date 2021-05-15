@@ -70,5 +70,5 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /media/deadpool/docker/media-server/jackett
-            type: DirectoryOrCreate
+            path: /media/server/jackett/
+            type: Directory

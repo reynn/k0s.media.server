@@ -16,3 +16,9 @@ patchesJson6902:
       kind: ClusterRoleBinding
       name: metallb
       version: v1
+  - path: node.selector.yaml
+    target:
+      group: apps
+      kind: DaemonSet
+      name: metallb-speaker
+      version: v1

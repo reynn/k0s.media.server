@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openebs-admission-server
+  namespace: openebs
+  labels:
+    app: admission-webhook
+    openebs.io/component-name: admission-webhook
+    openebs.io/version: 2.8.0
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+    rollingUpdate: null
+  selector:
+    matchLabels:
+      app: admission-webhook
+  template:
+    metadata:
+      labels:
+        app: admission-webhook
+        openebs.io/component-name: admission-webhook
+        openebs.io/version: 2.8.0
+    spec:
+      serviceAccountName: openebs-maya-operator
+      containers:
+        - name: admission-webhook
+          image: openebs/admission-server:2.8.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - -alsologtostderr
+            - -v=2
+            - 2>&1
+          env:
+            - name: OPENEBS_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ADMISSION_WEBHOOK_NAME
+              value: "openebs-admission-server"
+            - name: ADMISSION_WEBHOOK_FAILURE_POLICY
+              value: "Fail"
+          # Process name used for matching is limited to the 15 characters
+          # present in the pgrep output.
+          # So fullname can't be used here with pgrep (>15 chars).A regular expression
+          # Anchor `^` : matches any string that starts with `admission-serve`
+          # `.*`: matche any string that has `admission-serve` followed by zero or more char
+          # that matches the entire command name has to specified.
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - test `pgrep -c "^admission-serve.*"` = 1
+            initialDelaySeconds: 30
+            periodSeconds: 60

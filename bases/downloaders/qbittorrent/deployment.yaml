@@ -65,5 +65,5 @@ spec:
             type: Directory
         - name: config
           hostPath:
-            path: /media/deadpool/docker/media-server/qbittorrent
+            path: /media/server/qbittorrent/
             type: Directory

@@ -59,33 +59,20 @@ spec:
         - name: tv
           hostPath:
             path: /media/deadpool/tv
-            type: DirectoryOrCreate
+            type: Directory
         - name: anime-dual-audio
           hostPath:
             path: /media/deadpool/anime_dual_audio
-            type: DirectoryOrCreate
+            type: Directory
         - name: anime
           hostPath:
             path: /media/deadpool/anime
-            type: DirectoryOrCreate
+            type: Directory
         - name: sports
           hostPath:
             path: /media/deadpool/sports
-            type: DirectoryOrCreate
+            type: Directory
         - name: config
-          persistentVolumeClaim:
-            claimName: sonarr-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarr-config
-  labels:
-    app: sonarr-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+          hostPath:
+            path: /media/server/calibre/
+            type: Directory

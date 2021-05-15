@@ -69,33 +69,44 @@ spec:
             timeoutSeconds: 2
             successThreshold: 5
           volumeMounts:
-            - mountPath: /config
-              name: config
-            - mountPath: /media/deadpool
-              name: media
+            - name: media
+              mountPath: /media/deadpool
+            - name: jellyfin
+              mountPath: /config
+            - name: metadata
+              mountPath: /config/metadata
+            - name: config
+              mountPath: /config/config
+            - name: data
+              mountPath: /config/data
+            - name: jellyfin-root
+              mountPath: /config/root
       securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
+        runAsUser: 1000
+        runAsGroup: 1000
         fsGroup: 1000
       volumes:
         - name: media
           hostPath:
             path: /media/deadpool/
             type: Directory
+        - name: metadata
+          hostPath:
+            path: /media/server/jellyfin/metadata
+            type: Directory
         - name: config
-          persistentVolumeClaim:
-            claimName: jellyfin-config
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jellyfin-config
-  labels:
-    app: jellyfin-config
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
+          hostPath:
+            path: /media/server/jellyfin/config
+            type: Directory
+        - name: data
+          hostPath:
+            path: /media/server/jellyfin/data
+            type: Directory
+        - name: jellyfin
+          hostPath:
+            path: /media/server/jellyfin/
+            type: Directory
+        - name: jellyfin-root
+          hostPath:
+            path: /media/server/jellyfin/root
+            type: Directory
