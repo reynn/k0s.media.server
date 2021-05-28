@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ersatztv
+  annotations:
+    k0s.reynn.net/resource-profile: small
+spec:
+  selector:
+    matchLabels:
+      app: ersatztv
+  template:
+    metadata:
+      labels:
+        app: ersatztv
+    spec:
+      containers:
+        - name: ersatztv
+          image: jasongdove/ersatzt
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK_SET
+              value: "022"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - containerPort: 8409
+              name: http-ui
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: ersatztv-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ersatztv-config
+  namespace: default
+  labels:
+    app: ersatztv-config
+spec:
+  storageClassName: openebs-device
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: tv-shows
+# spec:
+#   storageClassName: ""
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Mi
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nfs
+# spec:
+#   capacity:
+#     storage: 1Mi
+#   accessModes:
+#     - ReadWriteMany
+#   nfs:
+#     server: 10.0.0.2
+#     path: "/media/deadpool/"

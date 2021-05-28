@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: utils
+
+commonAnnotations:
+  k0s.reynn.net/base: pihole
+
+resources: []
+
+generators:
+  - pihole.helm.yaml
