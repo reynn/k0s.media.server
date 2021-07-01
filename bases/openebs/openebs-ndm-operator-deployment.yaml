@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openebs-ndm-operator
-  namespace: openebs
   labels:
     name: openebs-ndm-operator
     openebs.io/component-name: ndm-operator
@@ -67,7 +66,8 @@ spec:
           livenessProbe:
             exec:
               command:
-              - pgrep
-              - "ndo"
+                - pgrep
+                - "ndo"
             initialDelaySeconds: 30
             periodSeconds: 60
+          resources: {}

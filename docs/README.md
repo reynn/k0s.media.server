@@ -8,9 +8,13 @@ Tiny media server for running on a minimal Kubernetes distro such as
 - [MicroK8s][homepage-microk8s]
 - Many others that I left out
 
+## Kustomize Plugins
+
+[Helm Generator](https://github.com/joshrwolf/kustomize-helmgenerator)
+
 ## Bases
 
-__Separated by Namespace__
+> __Separated by Namespace__
 
 | Name        | Role                | Homepage                               |
 | ----------- | ------------------- | -------------------------------------- |

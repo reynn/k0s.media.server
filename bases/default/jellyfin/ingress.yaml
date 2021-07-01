@@ -26,6 +26,9 @@ metadata:
   name: jellyfin-headers
 spec:
   headers:
+    customResponseHeaders:
+      X-Robots-Tag: noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+    customFrameOptionsValue: "allow-from https://reynn.net"
     sslRedirect: true
     sslHost: jellyfin.reynn.net
     sslForceHost: true
@@ -36,6 +39,3 @@ spec:
     frameDeny: true
     contentTypeNosniff: true
     browserXssFilter: true
-    customResponseHeaders:
-      X-Robots-Tag: noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
-    customFrameOptionsValue: allow-from https://reynn.net

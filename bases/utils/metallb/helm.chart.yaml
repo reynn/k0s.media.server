@@ -85,7 +85,7 @@ values:
     image:
       registry: docker.io
       repository: bitnami/metallb-controller
-      tag: 0.9.6-debian-10-r27
+      tag: "0.10.2"
       pullPolicy: IfNotPresent
 
     # If global .Values.psp.create is disabled no psp is created.
@@ -187,7 +187,7 @@ values:
     image:
       registry: docker.io
       repository: bitnami/metallb-speaker
-      tag: 0.9.6-debian-10-r26
+      tag: "0.10.2"
       pullPolicy: IfNotPresent
 
     # Speaker container resource requests and limits

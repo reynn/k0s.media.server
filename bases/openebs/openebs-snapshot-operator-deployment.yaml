@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openebs-snapshot-operator
-  namespace: openebs
   labels:
     name: openebs-snapshot-operator
     openebs.io/component-name: openebs-snapshot-operator
@@ -28,22 +27,22 @@ spec:
           image: openebs/snapshot-controller:2.8.0
           imagePullPolicy: IfNotPresent
           env:
-          - name: OPENEBS_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-         # Process name used for matching is limited to the 15 characters
-         # present in the pgrep output.
-         # So fullname can't be used here with pgrep (>15 chars).A regular expression
-         # that matches the entire command name has to specified.
-         # Anchor `^` : matches any string that starts with `snapshot-contro`
-         # `.*`: matches any string that has `snapshot-contro` followed by zero or more char
+            - name: OPENEBS_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          # Process name used for matching is limited to the 15 characters
+          # present in the pgrep output.
+          # So fullname can't be used here with pgrep (>15 chars).A regular expression
+          # that matches the entire command name has to specified.
+          # Anchor `^` : matches any string that starts with `snapshot-contro`
+          # `.*`: matches any string that has `snapshot-contro` followed by zero or more char
           livenessProbe:
             exec:
               command:
-              - sh
-              - -c
-              - test `pgrep -c "^snapshot-contro.*"` = 1
+                - sh
+                - -c
+                - test `pgrep -c "^snapshot-contro.*"` = 1
             initialDelaySeconds: 30
             periodSeconds: 60
         # OPENEBS_MAYA_SERVICE_NAME provides the maya-apiserver K8s service name,
@@ -56,10 +55,10 @@ spec:
           image: openebs/snapshot-provisioner:2.8.0
           imagePullPolicy: IfNotPresent
           env:
-          - name: OPENEBS_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
+            - name: OPENEBS_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           # OPENEBS_MAYA_SERVICE_NAME provides the maya-apiserver K8s service name,
           # that snapshot provisioner  should forward the clone create/delete requests.
           # If not present, "maya-apiserver-service" will be used for lookup.
@@ -70,17 +69,17 @@ spec:
           # leader election is enabled.
           #- name: LEADER_ELECTION_ENABLED
           #  value: "true"
-         # Process name used for matching is limited to the 15 characters
-         # present in the pgrep output.
-         # So fullname can't be used here with pgrep (>15 chars).A regular expression
-         # that matches the entire command name has to specified.
-         # Anchor `^` : matches any string that starts with `snapshot-provis`
-         # `.*`: matches any string that has `snapshot-provis` followed by zero or more char
+          # Process name used for matching is limited to the 15 characters
+          # present in the pgrep output.
+          # So fullname can't be used here with pgrep (>15 chars).A regular expression
+          # that matches the entire command name has to specified.
+          # Anchor `^` : matches any string that starts with `snapshot-provis`
+          # `.*`: matches any string that has `snapshot-provis` followed by zero or more char
           livenessProbe:
             exec:
               command:
-              - sh
-              - -c
-              - test `pgrep -c "^snapshot-provis.*"` = 1
+                - sh
+                - -c
+                - test `pgrep -c "^snapshot-provis.*"` = 1
             initialDelaySeconds: 30
             periodSeconds: 60

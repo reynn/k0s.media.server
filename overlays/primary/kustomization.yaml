@@ -6,7 +6,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.7.5"
+    newTag: "10.7.6"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -75,23 +75,23 @@ patches:
       version: v1
 
 resources:
-  - namespaces.yaml
-  - ../secrets/
+  # - namespaces.yaml
+  # - ../secrets/
   - ../../bases/default/ersatztv/
-  - ../../bases/default/jellyfin/
-  - ../../bases/downloaders/jackett/
-  - ../../bases/downloaders/nzbget/
-  - ../../bases/downloaders/qbittorrent/
-  - ../../bases/jobs/porkbun.dns.updater/
-  - ../../bases/jobs/music.video.downloader/
-  - ../../bases/managers/calibre/
-  - ../../bases/managers/lidarr/
-  - ../../bases/managers/mylar/
-  - ../../bases/managers/radarr/
-  - ../../bases/managers/sonarr/
-  - ../../bases/monitoring/prometheus/
-  - ../../bases/openebs/
-  - ../../bases/utils/nfs/
-  - ../../bases/utils/pihole/
-  - ../../bases/utils/traefik/
-  - ../../bases/utils/metallb/
+  # - ../../bases/default/jellyfin/
+  # - ../../bases/downloaders/jackett/
+  # - ../../bases/downloaders/nzbget/
+  # - ../../bases/downloaders/qbittorrent/
+  # - ../../bases/jobs/porkbun.dns.updater/
+  # - ../../bases/jobs/music.video.downloader/
+  # - ../../bases/managers/calibre/
+  # - ../../bases/managers/lidarr/
+  # - ../../bases/managers/mylar/
+  # - ../../bases/managers/radarr/
+  # - ../../bases/managers/sonarr/
+  # - ../../bases/monitoring/prometheus/
+  # - ../../bases/openebs/
+  # - ../../bases/utils/nfs/
+  # - ../../bases/utils/pihole/
+  # - ../../bases/utils/traefik/
+  # - ../../bases/utils/metallb/

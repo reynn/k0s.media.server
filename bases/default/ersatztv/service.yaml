@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: ersatztv
 spec:
+  type: ClusterIP
+  ipFamilyPolicy: PreferDualStack
   selector:
     app: ersatztv
   ports:

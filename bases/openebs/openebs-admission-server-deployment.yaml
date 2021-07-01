@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openebs-admission-server
-  namespace: openebs
   labels:
     app: admission-webhook
     openebs.io/component-name: admission-webhook
@@ -11,7 +10,6 @@ spec:
   replicas: 1
   strategy:
     type: Recreate
-    rollingUpdate: null
   selector:
     matchLabels:
       app: admission-webhook
@@ -49,8 +47,8 @@ spec:
           livenessProbe:
             exec:
               command:
-              - sh
-              - -c
-              - test `pgrep -c "^admission-serve.*"` = 1
+                - sh
+                - -c
+                - test `pgrep -c "^admission-serve.*"` = 1
             initialDelaySeconds: 30
             periodSeconds: 60

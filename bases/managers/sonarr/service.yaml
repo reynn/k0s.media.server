@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: sonarr
 spec:
+  type: ClusterIP
+  ipFamilyPolicy: PreferDualStack
   selector:
     app: sonarr
   ports:

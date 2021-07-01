@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ersatztv
-          image: jasongdove/ersatzt
+          image: jasongdove/ersatztv
           env:
             - name: PUID
               value: "1000"
@@ -45,24 +45,12 @@ metadata:
   labels:
     app: ersatztv-config
 spec:
-  storageClassName: openebs-device
+  storageClassName: openebs-hostpath
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: tv-shows
-# spec:
-#   storageClassName: ""
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 1Mi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume

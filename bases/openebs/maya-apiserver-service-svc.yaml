@@ -2,15 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: maya-apiserver-service
-  namespace: openebs
   labels:
     openebs.io/component-name: maya-apiserver-svc
 spec:
   ports:
-  - name: api
-    port: 5656
-    protocol: TCP
-    targetPort: 5656
+    - name: api
+      port: 5656
+      protocol: TCP
+      targetPort: 5656
   selector:
     name: maya-apiserver
   sessionAffinity: None
+  type: ClusterIP
+  ipFamilyPolicy: PreferDualStack

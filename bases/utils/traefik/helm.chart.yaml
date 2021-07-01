@@ -34,7 +34,9 @@ values:
     enabled: false
 
   pilot:
-    enabled: false
+    enabled: true
+    token: ece2b4c1-aa70-4a93-9793-ce5cd7e9368e
+    dashboard: true
 
   # Enable experimental features
   experimental:
@@ -42,6 +44,11 @@ values:
       enabled: true
     kubernetesGateway:
       enabled: false
+      appLabelSelector: "traefik"
+      certificates:
+        - group: "core"
+          kind: "Secret"
+          name: "reynn-net-cert"
 
   providers:
     kubernetesCRD:
