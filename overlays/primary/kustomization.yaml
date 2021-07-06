@@ -77,7 +77,7 @@ patches:
 resources:
   # - namespaces.yaml
   # - ../secrets/
-  - ../../bases/default/ersatztv/
+  # - ../../bases/default/ersatztv/
   # - ../../bases/default/jellyfin/
   # - ../../bases/downloaders/jackett/
   # - ../../bases/downloaders/nzbget/
@@ -88,7 +88,7 @@ resources:
   # - ../../bases/managers/lidarr/
   # - ../../bases/managers/mylar/
   # - ../../bases/managers/radarr/
-  # - ../../bases/managers/sonarr/
+  - ../../bases/managers/sonarr/
   # - ../../bases/monitoring/prometheus/
   # - ../../bases/openebs/
   # - ../../bases/utils/nfs/

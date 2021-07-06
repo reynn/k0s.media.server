@@ -73,6 +73,5 @@ spec:
             path: /media/deadpool/sports
             type: Directory
         - name: config
-          hostPath:
-            path: /media/server/calibre/
-            type: Directory
+          persistentVolumeClaim:
+            claimName: sonarr-pvc

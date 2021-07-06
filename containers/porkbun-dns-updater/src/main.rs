@@ -82,6 +82,7 @@ async fn main() -> Result<()> {
                     info!("{:?}", record)
                 }
             }
+            Subcommands::Completions { shell } => info!("Generating completions for {}", shell),
         }
     }
 

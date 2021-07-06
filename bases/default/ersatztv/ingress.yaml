@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: radarr
+  name: ersatztv
 spec:
   entryPoints:
     - websecure
@@ -9,8 +9,8 @@ spec:
     - match: Host(`ersatztv.reynn.net`)
       kind: Rule
       services:
-        - name: radarr
-          port: 7878
+        - name: ersatztv
+          port: 8409
       middlewares:
         - name: redirect-web-to-443@internal
   tls:

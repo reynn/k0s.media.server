@@ -2,16 +2,15 @@ use anyhow::Result;
 pub use structopt::StructOpt;
 
 #[derive(Debug, Clone, StructOpt)]
-#[structopt(name = "porkbun")]
 pub struct Cli {
     /// API Key for Porkbun, retrieve or create from https://porkbun.com/account/api
-    #[structopt(short, long)]
+    #[structopt(short, long, env = "PORKBUN_API_KEY")]
     pub api_key: String,
     /// Secret API Key for Porkbun, retrieve or create from https://porkbun.com/account/api
-    #[structopt(short, long)]
+    #[structopt(short, long, env = "PORKBUN_API_SECRET_KEY")]
     pub secret_key: String,
     /// The domain to interact with, eg. example.com
-    #[structopt(short, long)]
+    #[structopt(short, long, env = "PORKBUN_DOMAIN")]
     pub domain: String,
     /// Set the logging level to debug for additional information
     #[structopt(short, long, global = true)]
@@ -28,6 +27,8 @@ impl Cli {
 
 #[derive(Debug, Clone, StructOpt)]
 pub enum Subcommands {
+    /// Generate completions
+    Completions { shell: String },
     /// Create a new record for the provided DNS
     Create {
         name: String,
