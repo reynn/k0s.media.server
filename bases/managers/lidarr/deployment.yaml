@@ -4,6 +4,7 @@ metadata:
   name: lidarr
   annotations:
     k0s.reynn.net/resource-profile: small
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: lidarr
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: lidarr
           image: linuxserver/lidarr
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"
@@ -56,5 +49,5 @@ spec:
             type: Directory
         - name: config
           hostPath:
-            path: /media/server/lidarr/
+            path: /media/server/lidarr
             type: Directory

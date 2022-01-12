@@ -4,6 +4,7 @@ metadata:
   name: calibre
   annotations:
     k0s.reynn.net/resource-profile: mini
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: calibre
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: calibre
           image: linuxserver/calibre-web
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"

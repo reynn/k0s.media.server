@@ -4,6 +4,7 @@ metadata:
   name: nzbget
   annotations:
     k0s.reynn.net/resource-profile: small
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: nzbget
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: nzbget
           image: linuxserver/nzbget
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"

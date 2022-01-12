@@ -4,6 +4,7 @@ metadata:
   name: sonarr
   annotations:
     k0s.reynn.net/resource-profile: small
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: sonarr
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: sonarr
           image: linuxserver/sonarr
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"
@@ -73,5 +66,6 @@ spec:
             path: /media/deadpool/sports
             type: Directory
         - name: config
-          persistentVolumeClaim:
-            claimName: sonarr-pvc
+          hostPath:
+            path: /media/server/sonarr
+            type: Directory

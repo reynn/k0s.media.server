@@ -5,6 +5,7 @@ namespace: utils
 
 commonAnnotations:
   k0s.reynn.net/base: traefik
+  k0s.reynn.net/host: mimikyu
 
 resources:
   - default.tls.options.yaml

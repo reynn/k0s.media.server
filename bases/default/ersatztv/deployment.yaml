@@ -4,6 +4,7 @@ metadata:
   name: ersatztv
   annotations:
     k0s.reynn.net/resource-profile: small
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -16,6 +17,7 @@ spec:
       containers:
         - name: ersatztv
           image: jasongdove/ersatztv
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"

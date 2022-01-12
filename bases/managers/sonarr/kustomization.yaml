@@ -10,4 +10,4 @@ resources:
   - deployment.yaml
   - ingress.yaml
   - service.yaml
-  - storage.yaml
+  # - storage.yaml

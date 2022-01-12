@@ -6,7 +6,7 @@ Tiny media server for running on a minimal Kubernetes distro such as
 - [K3s][homepage-k3s]
 - [KinD][homepage-kind]
 - [MicroK8s][homepage-microk8s]
-- Many others that I left out
+- Many others that I left outd
 
 ## Kustomize Plugins
 
@@ -30,7 +30,7 @@ Tiny media server for running on a minimal Kubernetes distro such as
 | ----------- | ------------------- |                                        |
 | jellyfin    | Media Server/Player | [jellyfin.com][homepage-jellyfin]      |
 | ----------- | ------------------- |                                        |
-| longhorn    | K8s Storage Manager | [longhorn.io][homepage-longhorn]       |
+| OpenEBS     | K8s Storage Manager | [openebs.io][homepage-openebs]         |
 | ----------- | ------------------- |                                        |
 | nfs         | NFS File Share      | [nfs.io][homepage-nfs]                 |
 | traefik     | Reverse Proxy       | [traefik.io][homepage-traefik]         |
@@ -51,9 +51,9 @@ Tiny media server for running on a minimal Kubernetes distro such as
 
 *Namespace:* `managers`
 
-### Base: Longhorn
+### Base: OpenEBS
 
-*Namespace:* `longhorn-system`
+*Namespace:* `openebs`
 
 ### Base: Mylar
 
@@ -85,19 +85,19 @@ Tiny media server for running on a minimal Kubernetes distro such as
 
 <!-- -->
 
-[homepage-calibre]: https://
-[homepage-jackett]: https://
-[homepage-jellyfin]: https://
-[homepage-k0s]: https://k0s.io
-[homepage-kind]: https://
-[homepage-k3s]: https://k3s.io
-[homepage-lidarr]: https://
-[homepage-longhorn]: https://
-[homepage-mylar]: https://
-[homepage-nfs]: https://
-[homepage-nzbget]: https://
-[homepage-qbittorrent]: https://
-[homepage-radarr]: https://
-[homepage-sonarr]: https://
-[homepage-traefik]: https://traefik.io/
+[homepage-calibre]: https://calibre-ebook.com/
+[homepage-jackett]: https://github.com/Jackett/Jackett
+[homepage-jellyfin]: https://jellyfin.org/
+[homepage-k0s]: https://k0sproject.io/
+[homepage-kind]: https://kind.sigs.k8s.io/
+[homepage-k3s]: https://k3s.io/
 [homepage-microk8s]: https://microk8s.io/
+[homepage-lidarr]: https://lidarr.audio/
+[homepage-openebs]: https://openebs.io/
+[homepage-mylar]: https://github.com/evilhero/mylar
+[homepage-nfs]: https://en.wikipedia.org/wiki/Network_File_System
+[homepage-nzbget]: https://nzbget.net/
+[homepage-qbittorrent]: https://www.qbittorrent.org/
+[homepage-radarr]: https://radarr.video/
+[homepage-sonarr]: https://sonarr.tv/
+[homepage-traefik]: https://traefik.io/

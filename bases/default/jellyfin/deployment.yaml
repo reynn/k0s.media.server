@@ -4,9 +4,10 @@ metadata:
   name: jellyfin
   annotations:
     k0s.reynn.net/resource-profile: deluxe
+    k0s.reynn.net/host: mimikyu
 spec:
   strategy:
-    type: RollingUpdate
+    type: Recreate
   selector:
     matchLabels:
       app: jellyfin
@@ -15,18 +16,10 @@ spec:
       labels:
         app: jellyfin
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"

@@ -13,18 +13,10 @@ spec:
       labels:
         app: qbittorrent
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: qbittorrent
           image: linuxserver/qbittorrent
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"

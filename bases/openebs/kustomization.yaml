@@ -16,7 +16,6 @@ resources:
   - openebs-maya-operator-cr.yaml
   - openebs-maya-operator-crb.yaml
   - openebs-maya-operator-sa.yaml
-  - openebs-namespace.yaml
   - openebs-ndm-config-cm.yaml
   - openebs-ndm-daemonset.yaml
   - openebs-ndm-operator-deployment.yaml

@@ -6,7 +6,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.7.6"
+    newTag: "10.7.7"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -41,6 +41,12 @@ images:
     newTag: nightly
 
 patches:
+  - path: patches.json/host.mimikyu.yaml
+    target:
+      annotationSelector: "k0s.reynn.net/host=mimikyu"
+      group: apps
+      kind: Deployment
+      version: v1
   # Memory Profiles for deployments
   # mini, small, mid, large, deluxe
   - path: patches.json/resource.limits.deluxe.yaml
@@ -75,11 +81,11 @@ patches:
       version: v1
 
 resources:
-  # - namespaces.yaml
-  # - ../secrets/
+  - namespaces.yaml
+  - ../secrets/
   # - ../../bases/default/ersatztv/
   # - ../../bases/default/jellyfin/
-  # - ../../bases/downloaders/jackett/
+  - ../../bases/downloaders/jackett/
   # - ../../bases/downloaders/nzbget/
   # - ../../bases/downloaders/qbittorrent/
   # - ../../bases/jobs/porkbun.dns.updater/
@@ -88,7 +94,7 @@ resources:
   # - ../../bases/managers/lidarr/
   # - ../../bases/managers/mylar/
   # - ../../bases/managers/radarr/
-  - ../../bases/managers/sonarr/
+  # - ../../bases/managers/sonarr/
   # - ../../bases/monitoring/prometheus/
   # - ../../bases/openebs/
   # - ../../bases/utils/nfs/

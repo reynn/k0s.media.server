@@ -4,6 +4,7 @@ metadata:
   name: radarr
   annotations:
     k0s.reynn.net/resource-profile: mid
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: radarr
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: radarr
           image: linuxserver/radarr
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"
@@ -84,5 +77,5 @@ spec:
             type: Directory
         - name: config
           hostPath:
-            path: /media/server/radarr/
+            path: /media/server/radarr
             type: Directory

@@ -4,6 +4,7 @@ metadata:
   name: mylar
   annotations:
     k0s.reynn.net/resource-profile: small
+    k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
@@ -13,18 +14,10 @@ spec:
       labels:
         app: mylar
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mimikyu
       containers:
         - name: mylar
           image: linuxserver/mylar3
+          imagePullPolicy: Always
           env:
             - name: PUID
               value: "1000"
@@ -50,5 +43,5 @@ spec:
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /media/server/mylar/
+            path: /media/server/mylar
             type: Directory
