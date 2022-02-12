@@ -13,7 +13,7 @@ values:
   image:
     name: traefik
     # defaults to appVersion
-    tag: "v2.4"
+    # tag: "v2.4"
   fullnameOverride: traefik
   # Configure the deployment
   deployment:
@@ -21,7 +21,6 @@ values:
     replicas: 1
     podLabels:
       app: traefik
-      version: v2.4
     annotations:
       k0s.reynn.net/resource-profile: small
 

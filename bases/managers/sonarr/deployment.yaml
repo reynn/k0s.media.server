@@ -40,8 +40,6 @@ spec:
               mountPath: /media/deadpool/anime_dual_audio
             - name: anime
               mountPath: /media/deadpool/anime
-            - name: sports
-              mountPath: /media/deadpool/sports
             - name: downloads
               mountPath: /media/deadpool/downloads
       volumes:
@@ -60,10 +58,6 @@ spec:
         - name: anime
           hostPath:
             path: /media/deadpool/anime
-            type: Directory
-        - name: sports
-          hostPath:
-            path: /media/deadpool/sports
             type: Directory
         - name: config
           hostPath:
