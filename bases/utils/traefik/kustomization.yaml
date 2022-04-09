@@ -1,6 +1,3 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
 namespace: utils
 
 commonAnnotations:
@@ -8,15 +5,31 @@ commonAnnotations:
   k0s.reynn.net/host: mimikyu
 
 resources:
+  - crds/ingressroute.yaml
+  - crds/ingressroutetcp.yaml
+  - crds/ingressrouteudp.yaml
+  - crds/middlewares.yaml
+  - crds/middlewarestcp.yaml
+  - crds/serverstransports.yaml
+  - crds/tlsoptions.yaml
+  - crds/tlsstores.yaml
+  - crds/traefikservices.yaml
   - default.tls.options.yaml
   - default.tls.store.yaml
   - redirect.to.secure.yaml
 
-generators:
-  - helm.chart.yaml
+helmChartInflationGenerator:
+  - chartName: traefik
+    chartRepoUrl: https://helm.traefik.io/traefik
+    chartVersion: "10.19.0"
+    releaseName: traefik
+    values: helm.values.yaml
 
-patchesJson6902:
-  - path: crb.ns.json-patch.yaml
+patches:
+  - patch: |
+      - op: replace
+        path: /subjects/0/namespace
+        value: utils
     target:
       group: rbac.authorization.k8s.io
       kind: ClusterRoleBinding

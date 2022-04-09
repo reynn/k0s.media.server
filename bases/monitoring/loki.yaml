@@ -1,24 +1,13 @@
-apiVersion: wolfs.io/v1beta1
-kind: HelmChart
-metadata:
-  name: loki-stack
+loki:
+  enabled: true
 
-chart:
-  git: https://github.com/grafana/helm-charts
-  ref: main
-  path: charts/loki-stack
+promtail:
+  enabled: true
 
-values:
-  loki:
-    enabled: true
-
-  promtail:
-    enabled: true
-
-  grafana:
-    enabled: true
-    sidecar:
-      datasources:
-        enabled: true
-    image:
-      tag: 7.5.4
+grafana:
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: true
+  image:
+    tag: 7.5.4

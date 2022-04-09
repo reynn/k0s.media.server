@@ -1,5 +1,0 @@
-address-pools:
-  - name: default
-    protocol: layer2
-    addresses:
-      - 10.40.0.90-10.40.0.200

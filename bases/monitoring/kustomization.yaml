@@ -8,5 +8,3 @@ commonAnnotations:
 
 resources: []
 
-generators:
-  - loki.yaml
