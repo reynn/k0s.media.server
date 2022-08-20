@@ -3,7 +3,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.8.0-beta1"
+    newTag: "10.8.4"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -79,12 +79,12 @@ patches:
 
 resources:
   - namespaces.yaml
-  - ../secrets/
+  # - ../secrets/
   # - ../../bases/default/ersatztv/
   - ../../bases/default/jellyfin/
-  # - ../../bases/downloaders/jackett/
-  # - ../../bases/downloaders/nzbget/
-  # - ../../bases/downloaders/qbittorrent/
+  - ../../bases/downloaders/jackett/
+  - ../../bases/downloaders/nzbget/
+  - ../../bases/downloaders/qbittorrent/
   # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/jobs/music.video.downloader/
   - ../../bases/managers/calibre/
@@ -97,4 +97,5 @@ resources:
   # - ../../bases/utils/nfs/
   # - ../../bases/utils/pihole/
   - ../../bases/utils/traefik/
-  - ../../bases/utils/metallb/
+  - ../../bases/utils/cert-manager/
+  - ../../bases/utils/vpn-gateway/

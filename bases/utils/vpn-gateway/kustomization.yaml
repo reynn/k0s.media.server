@@ -1,0 +1,59 @@
+commonAnnotations:
+  k0s.reynn.net/base: vpn-gateway
+  k0s.reynn.net/host: mimikyu
+
+helmChartInflationGenerator:
+  - chartName: pod-gateway
+    chartRepoUrl: https://k8s-at-home.com/charts/
+    chartVersion: "5.2.1"
+    releaseName: vpn-gateway
+    values: helm.values.yaml
+
+patches:
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      version: v1
+      kind: Service
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      version: v1
+      kind: ConfigMap
+      name: vpn-gateway-pod-gateway
+      namespace: default
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      version: v1
+      group: cert-manager.io
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      group: admissionregistration.k8s.io
+      version: v1
+      kind: MutatingWebhookConfiguration
+  - patch: |
+      - op: add
+        path: /metadata/namespace
+        value: utils
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy

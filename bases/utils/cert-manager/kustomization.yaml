@@ -1,0 +1,12 @@
+namespace: utils
+
+commonAnnotations:
+  k0s.reynn.net/base: cert-manager
+  k0s.reynn.net/host: mimikyu
+
+helmChartInflationGenerator:
+  - chartName: cert-manager
+    chartRepoUrl: https://charts.jetstack.io
+    chartVersion: "v1.8.0"
+    releaseName: cert-manager
+    values: helm.values.yaml

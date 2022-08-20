@@ -21,7 +21,7 @@ resources:
 helmChartInflationGenerator:
   - chartName: traefik
     chartRepoUrl: https://helm.traefik.io/traefik
-    chartVersion: "10.19.0"
+    chartVersion: "10.24.0"
     releaseName: traefik
     values: helm.values.yaml
 
