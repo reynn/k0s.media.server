@@ -4,7 +4,6 @@ metadata:
   name: mylar
 spec:
   type: ClusterIP
-  ipFamilyPolicy: PreferDualStack
   selector:
     app: mylar
   ports:

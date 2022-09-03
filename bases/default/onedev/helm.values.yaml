@@ -1,0 +1,51 @@
+## Set this as true to stop OneDev server to perform various maintenance tasks such as backup, restore.
+## Check https://code.onedev.io/projects/162/blob/main/pages/backup-restore.md for details
+maintenance: false
+
+nodeSelector:
+  onedev:
+    kubernetes.io/os: linux
+  mysql:
+    kubernetes.io/os: linux
+
+service:
+  main:
+    port: 80
+  ssh:
+    # If separateService is enabled, a separate service is created for SSH with the following options,
+    # otherwise, a port for SSH will be added in the main service with the following options.
+    separateService: false
+    port: 22
+
+## Ingress support, check below for more info.
+## Check https://code.onedev.io/projects/162/blob/main/pages/deploy-into-k8s-with-helm.md#ingress-setup for details
+ingress: {}
+
+letsencrypt:
+  ## Specify an email here to enable LetsEncrypt.
+  ## Check https://code.onedev.io/projects/162/blob/main/pages/deploy-into-k8s-with-helm.md#letsencrypt-setup for details
+  email: ""
+
+resources:
+  onedev:
+    memory: 1024Mi
+  mysql:
+    memory: 256Mi
+
+volumes:
+  onedev:
+    ## Optionally specify storage class of persistent volume to store OneDev data including git repositories and indexes.
+    ## Leave empty to use default storage class
+    storageClassName: ""
+    size: 100Gi
+  mysql:
+    ## Optionally specify storage class of persistent volume to store mysql data.
+    ## Leave empty to use default storage class
+    storageClassName: ""
+    size: 20Gi
+
+secrets:
+  mysql:
+    ## change mysql root password if desired
+    password: changeit
+

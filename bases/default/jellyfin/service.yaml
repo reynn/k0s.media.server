@@ -4,7 +4,6 @@ metadata:
   name: jellyfin
 spec:
   type: LoadBalancer
-  ipFamilyPolicy: PreferDualStack
   selector:
     app: jellyfin
   ports:

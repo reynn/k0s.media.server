@@ -4,7 +4,6 @@ metadata:
   name: radarr
 spec:
   type: ClusterIP
-  ipFamilyPolicy: PreferDualStack
   selector:
     app: radarr
   ports:

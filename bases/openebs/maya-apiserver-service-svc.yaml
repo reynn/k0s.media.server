@@ -14,4 +14,3 @@ spec:
     name: maya-apiserver
   sessionAffinity: None
   type: ClusterIP
-  ipFamilyPolicy: PreferDualStack

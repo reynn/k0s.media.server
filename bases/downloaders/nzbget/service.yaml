@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: nzbget
 spec:
-  type: ClusterIP
-  ipFamilyPolicy: PreferDualStack
+  type: LoadBalancer
   selector:
     app: nzbget
   ports:
     - name: tcp
+      nodePort: 30789
       port: 6789

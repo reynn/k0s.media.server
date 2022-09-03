@@ -79,15 +79,16 @@ patches:
 
 resources:
   - namespaces.yaml
-  # - ../secrets/
+  # - downloader.np.yaml
+  - ../secrets/
   # - ../../bases/default/ersatztv/
   - ../../bases/default/jellyfin/
-  - ../../bases/downloaders/jackett/
+  # - ../../bases/downloaders/jackett/
   - ../../bases/downloaders/nzbget/
-  - ../../bases/downloaders/qbittorrent/
+  # - ../../bases/downloaders/qbittorrent/
   # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/jobs/music.video.downloader/
-  - ../../bases/managers/calibre/
+  # - ../../bases/managers/calibre/
   - ../../bases/managers/lidarr/
   - ../../bases/managers/mylar/
   - ../../bases/managers/radarr/
@@ -97,5 +98,5 @@ resources:
   # - ../../bases/utils/nfs/
   # - ../../bases/utils/pihole/
   - ../../bases/utils/traefik/
-  - ../../bases/utils/cert-manager/
-  - ../../bases/utils/vpn-gateway/
+  # - ../../bases/utils/cert-manager/
+  # - ../../bases/utils/vpn-gateway/

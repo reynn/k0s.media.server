@@ -5,7 +5,7 @@ commonAnnotations:
 helmChartInflationGenerator:
   - chartName: pod-gateway
     chartRepoUrl: https://k8s-at-home.com/charts/
-    chartVersion: "5.2.1"
+    chartVersion: "5.6.2"
     releaseName: vpn-gateway
     values: helm.values.yaml
 
@@ -57,3 +57,11 @@ patches:
       group: networking.k8s.io
       version: v1
       kind: NetworkPolicy
+
+configMapGenerator:
+  - name: openvpn-config
+    namespace: utils
+    options:
+      disableNameSuffixHash: true
+    files:
+      - vpnConfigfile=us9130.nordvpn.com.tcp443.ovpn

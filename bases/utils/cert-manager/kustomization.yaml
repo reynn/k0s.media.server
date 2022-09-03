@@ -7,6 +7,6 @@ commonAnnotations:
 helmChartInflationGenerator:
   - chartName: cert-manager
     chartRepoUrl: https://charts.jetstack.io
-    chartVersion: "v1.8.0"
+    chartVersion: "v1.9.1"
     releaseName: cert-manager
     values: helm.values.yaml

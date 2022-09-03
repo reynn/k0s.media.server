@@ -4,7 +4,6 @@ metadata:
   name: calibre
 spec:
   type: ClusterIP
-  ipFamilyPolicy: PreferDualStack
   selector:
     app: calibre
   ports:
