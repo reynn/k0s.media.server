@@ -34,7 +34,7 @@ async fn main() -> Result<()> {
                 info!("Creating {} in the {} domain", name, domain);
                 let response = porkbun_client
                     .create_dns_record(
-                        &domain,
+                        domain,
                         &name,
                         Some(&record_type.into()),
                         Some(&content),
@@ -64,14 +64,12 @@ async fn main() -> Result<()> {
             }
             Subcommands::Delete { record_id } => {
                 info!("Deleting {} from {}", record_id, domain);
-                let response = porkbun_client
-                    .delete_dns_record(&domain, &record_id)
-                    .await?;
+                let response = porkbun_client.delete_dns_record(domain, &record_id).await?;
                 info!("Delete response: {:?}", response);
             }
             Subcommands::Get => {
                 info!("Getting records for the {} domain", domain);
-                let response = porkbun_client.get_dns_records(&domain).await?;
+                let response = porkbun_client.get_dns_records(domain).await?;
                 let records = response.records;
                 info!(
                     "There are {} records in the {} domain",

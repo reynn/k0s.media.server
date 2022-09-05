@@ -81,6 +81,7 @@ pub trait PorkbunDnsV3 {
         content: Option<&str>,
         ttl: Option<&str>,
     ) -> Result<PorkbunCreateDnsResult>;
+
     async fn edit_dns_record(
         &self,
         domain: &str,
@@ -90,6 +91,7 @@ pub trait PorkbunDnsV3 {
         content: Option<&str>,
         ttl: Option<&str>,
     ) -> Result<PorkbunEditDnsResult>;
+
     async fn delete_dns_record(
         &self,
         domain: &str,

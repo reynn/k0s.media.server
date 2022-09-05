@@ -36,7 +36,7 @@ impl Porkbun {
             api_key: api_key.into(),
             secret_key: secret_key.into(),
             current_ip: None,
-            client: client.unwrap_or(Client::new()),
+            client: client.unwrap_or_default(),
         };
         let ping_response = &s.ping().await?;
         if ping_response.status == "success" {
@@ -47,7 +47,8 @@ impl Porkbun {
 
     async fn ping(&self) -> Result<PorkbunPingResponse> {
         let endpoint = format!("{}/ping", self.base_url);
-        Ok(Client::new()
+        Ok(self
+            .client
             .post(endpoint)
             .json(&json!({
               "apikey": self.api_key,
