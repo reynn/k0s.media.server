@@ -1,103 +1,51 @@
 image:
-  name: traefik
-  tag: "v2.6.2"
   pullPolicy: Always
 
-deployment:
+hub:
   enabled: true
 
+# Pod disruption budget
 podDisruptionBudget:
-  enabled: false
+  enabled: true
+  maxUnavailable: 1
 
 ingressClass:
-  enabled: false
-  isDefaultClass: false
-
-pilot:
   enabled: true
-  token: "ece2b4c1-aa70-4a93-9793-ce5cd7e9368e"
-  dashboard: true
 
 experimental:
   plugins:
     enabled: true
-
-ingressRoute:
-  dashboard:
+  kubernetesGateway:
     enabled: true
-
-rollingUpdate:
-  maxUnavailable: 1
-  maxSurge: 1
-
-readinessProbe:
-  failureThreshold: 1
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 2
-
-livenessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 2
-
-providers:
-  kubernetesCRD:
-    enabled: true
-    allowCrossNamespace: true
-
-  kubernetesIngress:
-    enabled: false
-
-logs:
-  general:
-    format: json
-    level: ERROR
-
-metrics:
-  prometheus:
-    entryPoint: metrics
+    gateway:
+      enabled: true
 
 globalArguments:
   - "--global.checknewversion"
-  - "--global.sendanonymoususage"
 
-ports:
-  traefik:
-    port: 9000
-    exposedPort: 9000
-    protocol: TCP
-  web:
-    port: 8000
-    hostPort: 80
-    expose: true
-    exposedPort: 80
-    protocol: TCP
-    nodePort: 32080
-    redirectTo: websecure
-  websecure:
-    port: 8443
-    hostPort: 443
-    expose: true
-    exposedPort: 443
-    protocol: TCP
-  metrics:
-    port: 9100
-    expose: false
-    exposedPort: 9100
-    protocol: TCP
+envFrom:
+  # - configMapRef:
+  #     name: traefik
+  - secretRef:
+      name: traefik
 
-service:
-  enabled: false
-  type: LoadBalancer
-
-hostNetwork: false
-
-rbac:
-  enabled: true
+certResolvers:
+  letsencrypt:
+    # for challenge options cf. https://doc.traefik.io/traefik/https/acme/
+    email: nic@reynn.dev
+    dnsChallenge:
+      # also add the provider's required configuration under env
+      # or expand then from secrets/configmaps with envfrom
+      # cf. https://doc.traefik.io/traefik/https/acme/#providers
+      provider: porkbun
+      # add futher options for the dns challenge as needed
+      # cf. https://doc.traefik.io/traefik/https/acme/#dnschallenge
+      delayBeforeCheck: 30
+#     tlsChallenge: true
+#     httpChallenge:
+#       entryPoint: "web"
+#     # match the path to persistence
+#     storage: /data/acme.json
 
 resources:
   requests:
@@ -106,14 +54,3 @@ resources:
   limits:
     cpu: "300m"
     memory: "150Mi"
-
-securityContext:
-  capabilities:
-    drop: [ALL]
-  readOnlyRootFilesystem: true
-  runAsGroup: 65532
-  runAsNonRoot: true
-  runAsUser: 65532
-
-podSecurityContext:
-  fsGroup: 65532

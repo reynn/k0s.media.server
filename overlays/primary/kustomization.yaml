@@ -79,8 +79,7 @@ patches:
 
 resources:
   - namespaces.yaml
-  # - downloader.np.yaml
-  - ../secrets/
+  # - ../secrets/
   # - ../../bases/default/ersatztv/
   - ../../bases/default/jellyfin/
   # - ../../bases/downloaders/jackett/
@@ -93,10 +92,12 @@ resources:
   - ../../bases/managers/mylar/
   - ../../bases/managers/radarr/
   - ../../bases/managers/sonarr/
-  # - ../../bases/monitoring/prometheus/
+  # - ../../bases/utils/metallb/
+  # - ../../bases/monitoring/
   # - ../../bases/openebs/
+  # - ../../bases/utils/cert-manager/
+  # - ../../bases/utils/metallb/
   # - ../../bases/utils/nfs/
   # - ../../bases/utils/pihole/
   - ../../bases/utils/traefik/
-  # - ../../bases/utils/cert-manager/
   # - ../../bases/utils/vpn-gateway/

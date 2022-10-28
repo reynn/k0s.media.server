@@ -1,17 +1,15 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
 namespace: default
 
 commonAnnotations:
   k0s.reynn.net/base: onedev
 
-helmChartInflationGenerator:
-  - chartName: onedev
-    chartRepoUrl: https://dl.cloudsmith.io/public/onedev/onedev/helm/charts
-    chartVersion: "7.4.24"
+helmCharts:
+  - name: onedev
+    includeCRDs: true
     releaseName: onedev
-    values: helm.values.yaml
+    valuesFile: helm.values.yaml
+    repo: https://dl.cloudsmith.io/public/onedev/onedev/helm/charts
+    version: "7.4.24"
 
 resources:
   - ingress.yaml

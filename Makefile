@@ -1,7 +1,5 @@
-PHONY: docker-build docker-push kustomize-build kustomize-plugins kustomize-primary
-
-OVERLAY := primary
-REGISTRY := ghcr.io
+OVERLAY = overlays/primary
+REGISTRY = ghcr.io
 
 default: kustomize-build
 
@@ -13,7 +11,7 @@ docker-push: docker-build
 
 kustomize-build:
 	@mkdir -p "${PWD}/.build"
-	kustomize build --enable-helm overlays/$(OVERLAY)/ > .build/$(OVERLAY).yaml
+	kustomize build --enable-helm $(OVERLAY) > .build/$(shell echo $(OVERLAY) | cut -d/ -f2).yaml
 
 kustomize-apply: kustomize-build
 	kubectl apply -f .build/$(OVERLAY).yaml

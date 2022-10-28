@@ -5,25 +5,17 @@ commonAnnotations:
   k0s.reynn.net/host: mimikyu
 
 resources:
-  - crds/ingressroute.yaml
-  - crds/ingressroutetcp.yaml
-  - crds/ingressrouteudp.yaml
-  - crds/middlewares.yaml
-  - crds/middlewarestcp.yaml
-  - crds/serverstransports.yaml
-  - crds/tlsoptions.yaml
-  - crds/tlsstores.yaml
-  - crds/traefikservices.yaml
   - default.tls.options.yaml
   - default.tls.store.yaml
   - redirect.to.secure.yaml
 
-helmChartInflationGenerator:
-  - chartName: traefik
-    chartRepoUrl: https://helm.traefik.io/traefik
-    chartVersion: "10.24.0"
+helmCharts:
+  - name: traefik
+    repo: https://helm.traefik.io/traefik
+    includeCRDs: true
+    version: 18.1.0
     releaseName: traefik
-    values: helm.values.yaml
+    valuesFile: helm.values.yaml
 
 patches:
   - patch: |

@@ -1,0 +1,10 @@
+namespace: utils
+
+commonAnnotations:
+  k0s.reynn.net/base: metallb
+  k0s.reynn.net/host: mimikyu
+
+resources:
+  - github.com/metallb/metallb/config/frr?ref=v0.13.7
+  - lan-ips.yaml
+  - advertisement.yaml

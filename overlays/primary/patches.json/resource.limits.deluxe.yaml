@@ -7,3 +7,4 @@
     limits:
       memory: "8Gi"
       cpu: "8"
+      nvidia.com/gpu: 1
