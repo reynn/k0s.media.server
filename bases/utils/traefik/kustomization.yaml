@@ -5,25 +5,12 @@ commonAnnotations:
   k0s.reynn.net/host: mimikyu
 
 resources:
-  - default.tls.options.yaml
-  - default.tls.store.yaml
   - redirect.to.secure.yaml
 
 helmCharts:
   - name: traefik
     repo: https://helm.traefik.io/traefik
     includeCRDs: true
-    version: 18.1.0
+    version: 37.1.0
     releaseName: traefik
     valuesFile: helm.values.yaml
-
-patches:
-  - patch: |
-      - op: replace
-        path: /subjects/0/namespace
-        value: utils
-    target:
-      group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: traefik
-      version: v1

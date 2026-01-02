@@ -3,9 +3,12 @@ kind: Service
 metadata:
   name: radarr
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: radarr
   ports:
     - name: tcp
+      protocol: TCP
       port: 7878
+      targetPort: 7878
+      nodePort: 30878

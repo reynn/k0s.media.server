@@ -1,12 +1,13 @@
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: jellyfin
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
-    - match: Host(`jellyfin.reynn.net`)
+    - match: Host(`media.reynn.dev`)
       kind: Rule
       services:
         - name: jellyfin
@@ -15,12 +16,14 @@ spec:
       middlewares:
         - name: jellyfin-headers
   tls:
-    secretName: reynn-net-cert
-    options:
-      name: recommended-tls-opts
-      namespace: utils
+    secretName: reynn-dev-ssl
+    # certResolver: acme
+    # domains:
+    # - main: media.reynn.dev
+    #   sans:
+    #   - jellyfin.reynn.dev
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: jellyfin-headers
@@ -28,9 +31,9 @@ spec:
   headers:
     customResponseHeaders:
       X-Robots-Tag: noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
-    customFrameOptionsValue: "allow-from https://reynn.net"
+    customFrameOptionsValue: "allow-from https://reynn.dev"
     sslRedirect: true
-    sslHost: jellyfin.reynn.net
+    sslHost: media.reynn.net
     sslForceHost: true
     stsSeconds: 315360000
     stsIncludeSubdomains: true

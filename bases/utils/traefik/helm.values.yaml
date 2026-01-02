@@ -1,56 +1,67 @@
-image:
-  pullPolicy: Always
-
-hub:
-  enabled: true
-
-# Pod disruption budget
-podDisruptionBudget:
-  enabled: true
-  maxUnavailable: 1
-
 ingressClass:
   enabled: true
+  isDefaultClass: true
+
+gatewayClass:
+  enabled: true
+
+deployment:
+  additionalVolumes:
+    - name: certs
+      hostPath:
+        path: /media/server/traefik
 
 experimental:
-  plugins:
-    enabled: true
-  kubernetesGateway:
-    enabled: true
-    gateway:
-      enabled: true
+  plugins: {}
 
-globalArguments:
-  - "--global.checknewversion"
+# -- Only dashboard & healthcheck IngressRoute are supported. It's recommended to create workloads CR outside of this Chart.
+ingressRoute:
+  dashboard:
+    enabled: true
+    # -- Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
+    # By default, it's using traefik entrypoint, which is not exposed.
+    # /!\ Do not expose your dashboard without any protection over the internet /!\
+    entryPoints: ["web"]
 
+
+global:
+  checkNewVersion: true
+
+# -- Additional arguments to be passed at Traefik's binary
+# See [CLI Reference](https://docs.traefik.io/reference/static-configuration/cli/)
+# Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
+additionalArguments: []
+#  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+#  - "--log.level=DEBUG"
+
+# -- Environment variables to be passed to Traefik's binary from configMaps or secrets
 envFrom:
-  # - configMapRef:
-  #     name: traefik
   - secretRef:
       name: traefik
 
-certResolvers:
-  letsencrypt:
-    # for challenge options cf. https://doc.traefik.io/traefik/https/acme/
-    email: nic@reynn.dev
-    dnsChallenge:
-      # also add the provider's required configuration under env
-      # or expand then from secrets/configmaps with envfrom
-      # cf. https://doc.traefik.io/traefik/https/acme/#providers
-      provider: porkbun
-      # add futher options for the dns challenge as needed
-      # cf. https://doc.traefik.io/traefik/https/acme/#dnschallenge
-      delayBeforeCheck: 30
-#     tlsChallenge: true
-#     httpChallenge:
-#       entryPoint: "web"
-#     # match the path to persistence
-#     storage: /data/acme.json
+# -- TLS Options are created as [TLSOption CRDs](https://doc.traefik.io/traefik/https/tls/#tls-options)
+# When using `labelSelector`, you'll need to set labels on tlsOption accordingly.
+# See EXAMPLE.md for details.
+# tlsOptions: {}
 
-resources:
-  requests:
-    cpu: "100m"
-    memory: "50Mi"
-  limits:
-    cpu: "300m"
-    memory: "150Mi"
+# -- TLS Store are created as [TLSStore CRDs](https://doc.traefik.io/traefik/https/tls/#default-certificate). This is useful if you want to set a default certificate. See EXAMPLE.md for details.
+# tlsStore:
+#   defaultCertificate:
+#     secretName: reynn-net-cert
+
+# -- Additional volumeMounts to add to the Traefik container
+additionalVolumeMounts:
+# -- For instance when using a logshipper for access logs
+  - name: certs
+    mountPath: /media/server/traefik/
+
+# -- Certificates resolvers configuration.
+# Ref: https://doc.traefik.io/traefik/https/acme/#certificate-resolvers
+# See EXAMPLES.md for more details.
+certificatesResolvers:
+  acme:
+    acme:
+      email: nic@reynn.dev
+      storage: /media/server/traefik/acme.json
+      dnsChallenge:
+        provider: porkbun

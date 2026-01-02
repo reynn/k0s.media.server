@@ -3,9 +3,12 @@ kind: Service
 metadata:
   name: calibre
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: calibre
   ports:
     - name: tcp
+      protocol: TCP
       port: 8083
+      targetPort: 8083
+      nodePort: 30883

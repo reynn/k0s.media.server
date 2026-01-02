@@ -3,7 +3,7 @@ commonAnnotations:
 
 images:
   - name: jellyfin/jellyfin
-    newTag: "10.8.4"
+    newTag: "10.11"
   - name: erichough/nfs-server
     newTag: latest
   - name: linuxserver/radarr
@@ -79,23 +79,23 @@ patches:
 
 resources:
   - namespaces.yaml
-  # - ../secrets/
+  - ../secrets/
   # - ../../bases/default/ersatztv/
   - ../../bases/default/jellyfin/
   # - ../../bases/downloaders/jackett/
-  - ../../bases/downloaders/nzbget/
+  # - ../../bases/downloaders/nzbget/
   # - ../../bases/downloaders/qbittorrent/
-  # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/jobs/music.video.downloader/
+  # - ../../bases/jobs/porkbun.dns.updater/
   # - ../../bases/managers/calibre/
-  - ../../bases/managers/lidarr/
-  - ../../bases/managers/mylar/
+  # - ../../bases/managers/lidarr/
+  # - ../../bases/managers/mylar/
   - ../../bases/managers/radarr/
   - ../../bases/managers/sonarr/
-  # - ../../bases/utils/metallb/
   # - ../../bases/monitoring/
   # - ../../bases/openebs/
   # - ../../bases/utils/cert-manager/
+  # - ../../bases/utils/gitea/
   # - ../../bases/utils/metallb/
   # - ../../bases/utils/nfs/
   # - ../../bases/utils/pihole/
