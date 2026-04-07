@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: radarr
+  name: bazarr
   annotations:
     k0s.reynn.net/resource-profile: mid
     k0s.reynn.net/host: mimikyu
 spec:
   selector:
     matchLabels:
-      app: radarr
+      app: bazarr
   template:
     metadata:
       labels:
-        app: radarr
+        app: bazarr
     spec:
       containers:
-        - name: radarr
-          image: linuxserver/radarr
+        - name: bazarr
+          image: linuxserver/bazarr
           imagePullPolicy: Always
           env:
             - name: PUID
@@ -29,13 +29,11 @@ spec:
               value: America/Los Angeles
           resources: {}
           ports:
-            - containerPort: 7878
+            - containerPort: 6767
               name: tcp-server
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: media-covers
-              mountPath: /config/MediaCover
             - name: downloads
               mountPath: /media/deadpool/downloads
             - name: movies
@@ -47,8 +45,6 @@ spec:
             - name: animated
               mountPath: /media/deadpool/movies_animated
       volumes:
-        - name: media-covers
-          emptyDir: {}
         - name: downloads
           hostPath:
             path: /media/deadpool/downloads
@@ -71,5 +67,5 @@ spec:
             type: Directory
         - name: config
           hostPath:
-            path: /media/server/radarr
+            path: /media/server/bazarr
             type: Directory

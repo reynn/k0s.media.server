@@ -1,87 +1,88 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 commonAnnotations:
   k0s.reynn.net/overlay: primary
 
 images:
-  - name: jellyfin/jellyfin
-    newTag: "10.11"
-  - name: erichough/nfs-server
-    newTag: latest
-  - name: linuxserver/radarr
-    newName: ghcr.io/linuxserver/radarr
-    newTag: nightly
-  - name: linuxserver/jackett
-    newName: ghcr.io/linuxserver/jackett
-    newTag: development
-  - name: linuxserver/nzbhydra
-    newName: ghcr.io/linuxserver/nzbhydra2
-    newTag: latest
-  - name: linuxserver/lidarr
-    newName: ghcr.io/linuxserver/lidarr
-    newTag: nightly
-  - name: linuxserver/sonarr
-    newName: ghcr.io/linuxserver/sonarr
-    newTag: develop
-  - name: linuxserver/nzbget
-    newName: ghcr.io/linuxserver/nzbget
-    newTag: testing
-  - name: linuxserver/calibre-web
-    newName: ghcr.io/linuxserver/calibre-web
-    newTag: latest
-  - name: linuxserver/mylar3
-    newName: ghcr.io/linuxserver/mylar3
-    newTag: nightly
-  - name: linuxserver/qbittorrent
-    newName: ghcr.io/linuxserver/qbittorrent
-    newTag: unstable
-  - name: hotio/readarr
-    newName: ghcr.io/hotio/readarr
-    newTag: nightly
+- name: ghcr.io/kirovair/muxarr
+  newTag: latest
+- name: jellyfin/jellyfin
+  newTag: "10.11"
+- name: erichough/nfs-server
+  newTag: latest
+- name: linuxserver/radarr
+  newName: ghcr.io/linuxserver/radarr
+  newTag: nightly
+- name: linuxserver/jackett
+  newName: ghcr.io/linuxserver/jackett
+  newTag: development
+- name: linuxserver/nzbhydra
+  newName: ghcr.io/linuxserver/nzbhydra2
+  newTag: latest
+- name: linuxserver/lidarr
+  newName: ghcr.io/linuxserver/lidarr
+  newTag: nightly
+- name: linuxserver/sonarr
+  newName: ghcr.io/linuxserver/sonarr
+  newTag: develop
+- name: linuxserver/nzbget
+  newName: ghcr.io/linuxserver/nzbget
+  newTag: testing
+- name: linuxserver/calibre-web
+  newName: ghcr.io/linuxserver/calibre-web
+  newTag: latest
+- name: linuxserver/mylar3
+  newName: ghcr.io/linuxserver/mylar3
+  newTag: nightly
+- name: linuxserver/qbittorrent
+  newName: ghcr.io/linuxserver/qbittorrent
+  newTag: unstable
+- name: hotio/readarr
+  newName: ghcr.io/hotio/readarr
+  newTag: nightly
 
+# Memory Profiles for deployments
+# mini, small, mid, large, deluxe
 patches:
-  - path: patches.json/host.mimikyu.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/host=mimikyu"
-      group: apps
-      kind: Deployment
-      version: v1
-  # Memory Profiles for deployments
-  # mini, small, mid, large, deluxe
-  - path: patches.json/resource.limits.deluxe.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/resource-profile=deluxe"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.large.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/resource-profile=large"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.mid.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/resource-profile=mid"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.mini.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/resource-profile=mini"
-      group: apps
-      kind: Deployment
-      version: v1
-  - path: patches.json/resource.limits.small.yaml
-    target:
-      annotationSelector: "k0s.reynn.net/resource-profile=small"
-      group: apps
-      kind: Deployment
-      version: v1
+- path: patches.json/host.mimikyu.yaml
+  target:
+    annotationSelector: k0s.reynn.net/host=mimikyu
+    group: apps
+    kind: Deployment
+    version: v1
+- path: patches.json/resource.limits.deluxe.yaml
+  target:
+    annotationSelector: k0s.reynn.net/resource-profile=deluxe
+    group: apps
+    kind: Deployment
+    version: v1
+- path: patches.json/resource.limits.large.yaml
+  target:
+    annotationSelector: k0s.reynn.net/resource-profile=large
+    group: apps
+    kind: Deployment
+    version: v1
+- path: patches.json/resource.limits.mid.yaml
+  target:
+    annotationSelector: k0s.reynn.net/resource-profile=mid
+    group: apps
+    kind: Deployment
+    version: v1
+- path: patches.json/resource.limits.mini.yaml
+  target:
+    annotationSelector: k0s.reynn.net/resource-profile=mini
+    group: apps
+    kind: Deployment
+    version: v1
+- path: patches.json/resource.limits.small.yaml
+  target:
+    annotationSelector: k0s.reynn.net/resource-profile=small
+    group: apps
+    kind: Deployment
+    version: v1
 
-resources:
-  - namespaces.yaml
-  - ../secrets/
   # - ../../bases/default/ersatztv/
-  - ../../bases/default/jellyfin/
   # - ../../bases/downloaders/jackett/
   # - ../../bases/downloaders/nzbget/
   # - ../../bases/downloaders/qbittorrent/
@@ -90,14 +91,19 @@ resources:
   # - ../../bases/managers/calibre/
   # - ../../bases/managers/lidarr/
   # - ../../bases/managers/mylar/
-  - ../../bases/managers/radarr/
-  - ../../bases/managers/sonarr/
   # - ../../bases/monitoring/
   # - ../../bases/openebs/
+  # - ../../bases/utils/caddy/
   # - ../../bases/utils/cert-manager/
   # - ../../bases/utils/gitea/
-  # - ../../bases/utils/metallb/
-  # - ../../bases/utils/nfs/
-  # - ../../bases/utils/pihole/
-  - ../../bases/utils/traefik/
-  # - ../../bases/utils/vpn-gateway/
+resources:
+- namespaces.yaml
+- ../secrets/
+- ../../bases/default/jellyfin/
+- ../../bases/downloaders/sabnzb/
+- ../../bases/managers/bazarr/
+- ../../bases/managers/muxarr/
+- ../../bases/managers/radarr/
+- ../../bases/managers/sonarr/
+- ../../bases/utils/traefik/
+- ../../bases/utils/metallb/

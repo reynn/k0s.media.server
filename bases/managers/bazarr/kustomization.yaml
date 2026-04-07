@@ -1,10 +1,9 @@
 namespace: managers
 
 commonAnnotations:
-  k0s.reynn.net/base: radarr
+  k0s.reynn.net/base: bazarr
 
 resources:
   - deployment.yaml
-  # - ingress.caddy.yaml
-  - ingress.traefik.yaml
+  - ingress.yaml
   - service.yaml

@@ -1,0 +1,15 @@
+namespace: utils
+
+commonAnnotations:
+  k0s.reynn.net/base: gitea
+
+helmCharts:
+  - name: gitea
+    repo: https://dl.gitea.com/charts/
+    includeCRDs: true
+    version: 12.4.0
+    releaseName: gitea
+    valuesFile: helm.values.yaml
+
+resources:
+  - ingress.yaml

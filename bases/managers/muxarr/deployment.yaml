@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muxarr
+  annotations:
+    k0s.reynn.net/resource-profile: deluxe
+    k0s.reynn.net/host: mimikyu
+spec:
+  selector:
+    matchLabels:
+      app: muxarr
+  template:
+    metadata:
+      labels:
+        app: muxarr
+    spec:
+      containers:
+        - name: muxarr
+          image: ghcr.io/kirovair/muxarr
+          imagePullPolicy: Always
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Los Angeles
+          resources: {}
+          ports:
+            - containerPort: 8183
+              name: tcp-server
+          volumeMounts:
+            - name: config
+              mountPath: /data
+            - name: media
+              mountPath: /media/deadpool
+      volumes:
+        - name: media
+          hostPath:
+            path: /media/deadpool
+            type: Directory
+        - name: config
+          hostPath:
+            path: /media/server/muxarr
+            type: Directory

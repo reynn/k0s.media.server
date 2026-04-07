@@ -1,0 +1,13 @@
+namespace: utils
+
+commonAnnotations:
+  k0s.reynn.net/base: caddy
+  k0s.reynn.net/host: mimikyu
+
+helmCharts:
+  - name: caddy-ingress-controller
+    repo: https://caddyserver.github.io/ingress/
+    includeCRDs: true
+    version: 1.3.0
+    releaseName: caddy
+    valuesFile: helm.values.yaml

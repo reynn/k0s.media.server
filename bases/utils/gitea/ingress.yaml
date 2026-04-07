@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gitea
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`git.reynn.dev`)
+      kind: Rule
+      services:
+        - name: gitea-http
+          port: 3000
+          passHostHeader: true
+      middlewares:
+        - name: redirect-to-https
+  tls:
+    secretName: reynn-dev-ssl

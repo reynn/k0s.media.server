@@ -1,0 +1,9 @@
+namespace: downloaders
+
+commonAnnotations:
+  k0s.reynn.net/base: sabnzb
+
+resources:
+  - deployment.yaml
+  - ingress.yaml
+  - service.yaml

@@ -35,9 +35,9 @@ additionalArguments: []
 #  - "--log.level=DEBUG"
 
 # -- Environment variables to be passed to Traefik's binary from configMaps or secrets
-envFrom:
-  - secretRef:
-      name: traefik
+# envFrom:
+#   - secretRef:
+#       name: traefik
 
 # -- TLS Options are created as [TLSOption CRDs](https://doc.traefik.io/traefik/https/tls/#tls-options)
 # When using `labelSelector`, you'll need to set labels on tlsOption accordingly.
@@ -45,9 +45,9 @@ envFrom:
 # tlsOptions: {}
 
 # -- TLS Store are created as [TLSStore CRDs](https://doc.traefik.io/traefik/https/tls/#default-certificate). This is useful if you want to set a default certificate. See EXAMPLE.md for details.
-# tlsStore:
-#   defaultCertificate:
-#     secretName: reynn-net-cert
+tlsStore:
+  defaultCertificate:
+    secretName: reynn-dev-ssl
 
 # -- Additional volumeMounts to add to the Traefik container
 additionalVolumeMounts:
@@ -58,10 +58,10 @@ additionalVolumeMounts:
 # -- Certificates resolvers configuration.
 # Ref: https://doc.traefik.io/traefik/https/acme/#certificate-resolvers
 # See EXAMPLES.md for more details.
-certificatesResolvers:
-  acme:
-    acme:
-      email: nic@reynn.dev
-      storage: /media/server/traefik/acme.json
-      dnsChallenge:
-        provider: porkbun
+# certificatesResolvers:
+#   acme:
+#     acme:
+#       email: nic@reynn.dev
+#       storage: /media/server/traefik/acme.json
+#       dnsChallenge:
+#         provider: porkbun

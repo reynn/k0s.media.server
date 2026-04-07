@@ -1,0 +1,35 @@
+ingress:
+  enabled: false
+  hosts:
+    - host: git.reynn.dev
+      paths:
+        - path: /
+  tls:
+   - secretName: reynn-dev-ssl
+     hosts:
+       - git.reynn.dev
+
+# extraVolumes:
+#   - name: config
+#     hostPath:
+#       path: /media/server/gitea
+#       type: Directory
+
+# extraContainerVolumeMounts:
+#   - name: config
+#     mountPath: /data
+
+gitea:
+  oauth:
+    []
+    # - name: 'OAuth 1'
+    #   provider:
+    #   key:
+    #   secret:
+    #   existingSecret:
+    #   autoDiscoverUrl:
+    #   useCustomUrls:
+    #   customAuthUrl:
+    #   customTokenUrl:
+    #   customProfileUrl:
+    #   customEmailUrl:
